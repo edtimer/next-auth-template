@@ -12,7 +12,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { signinSchema } from "@/app/schema";
 
 export function SigninForm() {
-  const [lastResult, formAction] = useActionState(signin, undefined);
+  const [lastResult, formAction, isPending] = useActionState(signin, undefined);
 
   const [form, fields] = useForm({
     // Sync the result of the last submission
@@ -24,19 +24,21 @@ export function SigninForm() {
     },
   });
   return (
-    <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
+    <form id={form.id} onSubmit={form.onSubmit} action={formAction} noValidate>
       <div className="grid gap-6">
         <div className="grid gap-1">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" name="email" />
+          <Label>Email</Label>
+          <Input type="email" name={fields.email.name} />
           <div className="text-sm text-red-600">{fields.email.errors}</div>
         </div>
         <div className="grid gap-1">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" name="password" />
+          <Label>Password</Label>
+          <Input type="password" name={fields.password.name} />
           <div className="text-sm text-red-600">{fields.password.errors}</div>
         </div>
-        <Button>Sign in</Button>
+        <Button disabled={isPending}>
+          {isPending ? "Signing in..." : "Sign in"}
+        </Button>
       </div>
     </form>
   );
