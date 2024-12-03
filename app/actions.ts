@@ -8,4 +8,6 @@ export async function signin(prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
     schema: signinSchema,
   });
+
+  console.log("Form data: ", formData);
 }
