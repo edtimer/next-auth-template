@@ -1,19 +1,30 @@
 "use client";
 
 import { useActionState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { signin } from "@/app/actions";
+import { signin, signInWithGoogle } from "@/app/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
 import { Icons } from "@/components/icons";
 
 export function SigninForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  // Create a new action function with callbackUrl bound as the first parameter
+  const boundGoogleSignIn = signInWithGoogle.bind(null, callbackUrl);
+
   const [lastResult, formAction, isPending] = useActionState(signin, undefined);
+  const [googleResult, googleAction, isGooglePending] = useActionState(
+    boundGoogleSignIn,
+    undefined
+  );
 
   const [form, fields] = useForm({
     // Sync the result of the last submission
@@ -26,14 +37,16 @@ export function SigninForm() {
   });
   return (
     <div className="grid gap-6 px-6 py-12 shadow sm:rounded-lg sm:px-12">
-      <Button
-        type="submit"
-        className="w-full shadow-sm border-gray-300 text-gray-900"
-        variant="outline"
-      >
-        <Icons.google className="mr-2 size-6" />
-        Sign in with Google
-      </Button>
+      <form action={googleAction}>
+        <Button
+          type="submit"
+          className="w-full shadow-sm border-gray-300 text-gray-900"
+          variant="outline"
+        >
+          <Icons.google className="mr-2 size-6" />
+          Sign in with Google
+        </Button>
+      </form>
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
