@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { signin } from "@/app/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { signinSchema } from "@/app/schema";
+import { signInSchema } from "@/app/schema";
 
 export function SigninForm() {
   const [lastResult, formAction, isPending] = useActionState(signin, undefined);
@@ -20,7 +20,7 @@ export function SigninForm() {
 
     //Reuse the validation logic on the client
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: signinSchema });
+      return parseWithZod(formData, { schema: signInSchema });
     },
   });
   return (

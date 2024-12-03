@@ -5,11 +5,11 @@ import { AuthError } from "next-auth";
 
 import { redirect } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { signinSchema } from "@/app/schema";
+import { signInSchema } from "@/app/schema";
 
 export async function signin(prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
-    schema: signinSchema,
+    schema: signInSchema,
   });
 
   if (submission.status !== "success") {
