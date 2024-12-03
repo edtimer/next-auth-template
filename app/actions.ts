@@ -1,5 +1,8 @@
 "use server";
 
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
+
 import { redirect } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
 import { signinSchema } from "@/app/schema";
@@ -14,5 +17,17 @@ export async function signin(prevState: unknown, formData: FormData) {
     return submission.reply();
   }
 
-  console.log("Submission: ", submission);
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
 }
