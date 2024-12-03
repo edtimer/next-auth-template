@@ -25,7 +25,7 @@ export function SigninForm() {
     },
   });
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-6 px-6 py-12 shadow sm:rounded-lg sm:px-12">
       <Button
         type="submit"
         className="w-full shadow-sm border-gray-300 text-gray-900"
