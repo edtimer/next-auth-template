@@ -27,13 +27,13 @@ export function SigninForm() {
     <form id={form.id} onSubmit={form.onSubmit} action={formAction} noValidate>
       <div className="grid gap-6">
         <div className="grid gap-1">
-          <Label>Email</Label>
-          <Input type="email" name={fields.email.name} />
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" name={fields.email.name} />
           <div className="text-sm text-red-600">{fields.email.errors}</div>
         </div>
         <div className="grid gap-1">
-          <Label>Password</Label>
-          <Input type="password" name={fields.password.name} />
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" type="password" name={fields.password.name} />
           <div className="text-sm text-red-600">{fields.password.errors}</div>
         </div>
         <Button disabled={isPending}>

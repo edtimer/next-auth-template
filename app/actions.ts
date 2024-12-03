@@ -9,5 +9,10 @@ export async function signin(prevState: unknown, formData: FormData) {
     schema: signinSchema,
   });
 
-  console.log("Form data: ", formData);
+  if (submission.status !== "success") {
+    console.log("Reply: ", submission.reply());
+    return submission.reply();
+  }
+
+  console.log("Submission: ", submission);
 }
