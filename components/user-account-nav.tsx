@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import { getCurrentUser } from "@/lib/dal";
+import { buttonVariants } from "@/components/ui/button";
 import React from "react";
 import Link from "next/link";
 import {
@@ -12,15 +14,18 @@ import { Icons } from "@/components/icons";
 import { SignOutButton } from "@/components/sign-out-button";
 
 export async function UserAccountNav() {
-  const session = await auth();
+  const user = await getCurrentUser();
 
-  if (!session) {
+  if (!user) {
     return (
       <Link
-        href="/login"
-        className="rounded-full border border-sky-600 px-3 py-1.5 text-sm font-semibold text-sky-600 hover:bg-sky-600 hover:text-accent"
+        href="/signin"
+        className={buttonVariants({
+          size: "sm",
+          className: "bg-blue-600 hover:bg-blue-700",
+        })}
       >
-        Log in
+        Sign in
       </Link>
     );
   }
