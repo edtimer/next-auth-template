@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 
-import { Icons } from "@/components/icons";
 import { NavItem } from "@/components/nav-item";
 import { UserAccountNav } from "@/components/user-account-nav";
 

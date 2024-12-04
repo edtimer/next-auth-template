@@ -1,13 +1,12 @@
-import { auth } from "@/auth";
-import { SignOutButton } from "@/components/sign-out-button";
+import { getCurrentUser } from "@/lib/dal";
 
 export default async function Home() {
-  const session = await auth();
+  const user = await getCurrentUser();
+  console.log("User on the home page: ", user);
 
   return (
     <>
       <h1 className="text-2xl">Hello World!</h1>
-      {session?.user && <SignOutButton />}
     </>
   );
 }

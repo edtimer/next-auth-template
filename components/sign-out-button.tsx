@@ -10,7 +10,7 @@ export function SignOutButton() {
 
   return (
     <form action={action}>
-      <Button variant="outline" disabled={isPending}>
+      <Button disabled={isPending} className="w-full">
         {isPending ? "Signing out..." : "Sign out"}
       </Button>
     </form>

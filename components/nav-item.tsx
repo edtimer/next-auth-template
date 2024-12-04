@@ -21,7 +21,7 @@ export function NavItem({ href, title }: { href: string; title: string }) {
       {title}
       {isActive && (
         <motion.div
-          className="-bottom-[20px] absolute inset-x-0 h-[2px] w-full bg-blue-500"
+          className="-bottom-[20px] absolute inset-x-0 h-[2px] w-full bg-primary"
           layoutId="underline"
           transition={{
             layout: {

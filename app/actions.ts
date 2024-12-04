@@ -65,7 +65,5 @@ export async function signInWithGoogle(
 import { signOut } from "@/auth";
 
 export async function handleSignOut() {
-  // Call the signOut function from Auth
-  // By default it will redirect to '/' after signing out
   await signOut();
 }

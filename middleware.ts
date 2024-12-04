@@ -1,12 +1,13 @@
-// middleware.ts
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-// Define our routes - anything not in these arrays will be publicly accessible by default
+// Anything not in these arrays will be publicly accessible by default
 const authRoutes = ["/signin"];
 const protectedRoutes = ["/protected"];
 
 export default auth((req) => {
+  console.log("Middleware req auth: ", req.auth);
+
   // Get the current path
   const path = req.nextUrl.pathname;
 
