@@ -47,7 +47,7 @@ export function SigninForm() {
       <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
         Sign in to your account
       </h2>
-      <div className="grid gap-6 mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="grid gap-4 mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form action={googleAction}>
           <Button
             type="submit"
@@ -72,7 +72,7 @@ export function SigninForm() {
           action={formAction}
           noValidate
         >
-          <div className="grid gap-6">
+          <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" name={fields.email.name} />
