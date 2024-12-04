@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icons } from "@/components/icons";
-import { SignOutButton } from "@/components/signout-button";
+import { SignOutButton } from "@/components/sign-out-button";
 
 export async function UserAccountNav() {
   const session = await auth();

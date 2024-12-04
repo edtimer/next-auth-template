@@ -13,15 +13,15 @@ export function NavItem({ href, title }: { href: string; title: string }) {
   return (
     <Link
       className={cn(
-        "relative text-sm font-medium text-zinc-400 transition-colors hover:text-accent",
-        isActive && "text-accent"
+        "relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
+        isActive && "text-primary"
       )}
       href={href}
     >
       {title}
       {isActive && (
         <motion.div
-          className="-bottom-[19px] absolute inset-x-0 h-[2px] w-full rounded-full bg-orange-500"
+          className="-bottom-[20px] absolute inset-x-0 h-[2px] w-full bg-blue-500"
           layoutId="underline"
           transition={{
             layout: {

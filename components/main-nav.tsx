@@ -7,9 +7,9 @@ import { UserAccountNav } from "@/components/user-account-nav";
 
 export function MainNav({ items }) {
   return (
-    <div className="flex h-14 items-center justify-between bg-zinc-900 px-4 shadow-md">
+    <div className="flex h-14 items-center justify-between px-4 shadow-md">
       <div className="flex items-center space-x-2">
-        <Link href="/" className="text-lg font-black text-orange-500">
+        <Link href="/" className="text-lg font-black text-primary">
           NextAuth
         </Link>
       </div>
