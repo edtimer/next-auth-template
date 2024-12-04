@@ -1,6 +1,8 @@
-import { LogOut, Loader, LucideProps } from "lucide-react";
+import { Eye, EyeOff, LogOut, Loader, LucideProps } from "lucide-react";
 
 export const Icons = {
+  eye: Eye,
+  eyeOff: EyeOff,
   logOut: LogOut,
   loader: Loader,
   google: ({ ...props }: LucideProps) => (
