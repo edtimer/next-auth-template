@@ -49,6 +49,7 @@ export async function signInWithGoogle(
   prevState: unknown,
   formData: FormData
 ) {
+  console.log("Google callback URL: ", callbackUrl);
   try {
     await signIn("google", {
       redirectTo: callbackUrl,
@@ -59,4 +60,12 @@ export async function signInWithGoogle(
     }
     throw error;
   }
+}
+
+import { signOut } from "@/auth";
+
+export async function handleSignOut() {
+  // Call the signOut function from Auth
+  // By default it will redirect to '/' after signing out
+  await signOut();
 }
