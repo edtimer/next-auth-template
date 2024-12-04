@@ -1,7 +1,7 @@
-import { ChevronDown, Loader, LucideProps } from "lucide-react";
+import { LogOut, Loader, LucideProps } from "lucide-react";
 
 export const Icons = {
-  chevronDown: ChevronDown,
+  logOut: LogOut,
   loader: Loader,
   google: ({ ...props }: LucideProps) => (
     <svg
