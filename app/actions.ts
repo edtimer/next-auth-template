@@ -25,10 +25,9 @@ export async function signInWithEmailAndPassword(
       password: formData.get("password"),
       redirectTo: from,
     });
-    // If successful, return a proper submission result
     return {
       status: "success" as const,
-      error: undefined, // Changed from null to undefined
+      error: undefined,
       value: submission.value,
     };
   } catch (error) {

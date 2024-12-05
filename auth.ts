@@ -5,15 +5,9 @@ import { authConfig } from "@/auth.config";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import bcrypt from "bcrypt";
 import { supabase } from "@/lib/supabase";
+import { Database } from "@/database.types";
 
-type DbUser = {
-  id: string;
-  name: string | null;
-  email: string;
-  password: string;
-  emailVerified: Date | null;
-  image: string | null;
-};
+type DbUser = Database["next_auth"]["Tables"]["users"]["Row"];
 
 type UserDTO = Pick<DbUser, "id" | "name" | "email" | "image">;
 
@@ -22,14 +16,20 @@ async function getUser(email: string): Promise<DbUser | null> {
     .from("users")
     .select("*")
     .eq("email", email)
-    .schema("next_auth") // Specify the schema
     .single();
 
-  if (error || !data) {
+  if (error) {
     return null;
   }
 
-  return data as DbUser;
+  return data;
+}
+
+async function saveUser(
+  email: string,
+  password: string
+): Promise<DbUser | null> {
+  return data;
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -46,7 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const user = await getUser(email);
 
         if (!user) {
-          // Create user
+          await saveUser(email, password);
         }
 
         const passwordsMatch = await bcrypt.compare(password, user.password);
