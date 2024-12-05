@@ -5,7 +5,10 @@ import { AuthError } from "next-auth";
 import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
 
-export async function signin(prevState: unknown, formData: FormData) {
+export async function signInWithEmailAndPassword(
+  prevState: unknown,
+  formData: FormData
+) {
   // First, validate the form data
   const submission = parseWithZod(formData, {
     schema: signInSchema,
