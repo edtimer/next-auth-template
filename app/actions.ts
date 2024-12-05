@@ -19,7 +19,7 @@ export async function signInWithEmailAndPassword(
   }
 
   try {
-    await signIn("credentials", formData);
+    await signIn("credential", formData);
     // If successful, return a proper submission result
     return {
       status: "success" as const,
