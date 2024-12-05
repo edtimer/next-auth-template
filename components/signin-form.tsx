@@ -16,13 +16,17 @@ import { Icons } from "@/components/icons";
 
 export function SigninForm() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const from = searchParams.get("from") || "/";
 
   // Create a new action function with callbackUrl bound as the first parameter
-  const boundGoogleSignIn = signInWithGoogle.bind(null, callbackUrl);
+  const boundGoogleSignIn = signInWithGoogle.bind(null, from);
+  const boundSignInWithEmailAndPassword = signInWithEmailAndPassword.bind(
+    null,
+    from
+  );
 
   const [lastResult, formAction, isPending] = useActionState(
-    signInWithEmailAndPassword,
+    boundSignInWithEmailAndPassword,
     undefined
   );
   const [googleResult, googleAction, isGooglePending] = useActionState(

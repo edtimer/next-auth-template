@@ -6,6 +6,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
 
 export async function signInWithEmailAndPassword(
+  from: string,
   prevState: unknown,
   formData: FormData
 ) {
@@ -19,7 +20,11 @@ export async function signInWithEmailAndPassword(
   }
 
   try {
-    await signIn("credential", formData);
+    await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirectTo: from,
+    });
     // If successful, return a proper submission result
     return {
       status: "success" as const,
@@ -67,5 +72,5 @@ export async function signInWithGoogle(
 import { signOut } from "@/auth";
 
 export async function handleSignOut() {
-  await signOut();
+  await signOut({ redirectTo: "/" });
 }

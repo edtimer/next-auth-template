@@ -15,7 +15,7 @@ export async function UserAccountNav() {
   const user = await getCurrentUser();
 
   function getAvatarFallback(email: string) {
-    return email.slice(0, 2).toUpperCase();
+    return email?.slice(0, 2).toUpperCase();
   }
 
   if (!user) {
