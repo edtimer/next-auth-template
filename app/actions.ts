@@ -45,14 +45,13 @@ export async function signin(prevState: unknown, formData: FormData) {
 }
 
 export async function signInWithGoogle(
-  callbackUrl: string,
+  from: string,
   prevState: unknown,
   formData: FormData
 ) {
-  console.log("Google callback URL: ", callbackUrl);
   try {
     await signIn("google", {
-      redirectTo: callbackUrl,
+      redirectTo: from,
     });
   } catch (error) {
     if (error instanceof AuthError) {

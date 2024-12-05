@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { signin, signInWithGoogle } from "@/app/actions";
+import { signInWithGoogle, signInWithEmailAndPassword } from "@/app/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
@@ -21,7 +21,10 @@ export function SigninForm() {
   // Create a new action function with callbackUrl bound as the first parameter
   const boundGoogleSignIn = signInWithGoogle.bind(null, callbackUrl);
 
-  const [lastResult, formAction, isPending] = useActionState(signin, undefined);
+  const [lastResult, formAction, isPending] = useActionState(
+    signInWithEmailAndPassword,
+    undefined
+  );
   const [googleResult, googleAction, isGooglePending] = useActionState(
     boundGoogleSignIn,
     undefined
@@ -75,7 +78,12 @@ export function SigninForm() {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" name={fields.email.name} />
+              <Input
+                id="email"
+                type="email"
+                name={fields.email.name}
+                placeholder="you@example.com"
+              />
               <div className="text-sm text-red-600">{fields.email.errors}</div>
             </div>
             <div className="grid gap-2">
