@@ -4,8 +4,33 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import bcrypt from "bcrypt";
+import { supabase } from "@/lib/supabase";
 
-async function getUser(email: string) {}
+type DbUser = {
+  id: string;
+  name: string | null;
+  email: string;
+  password: string;
+  emailVerified: Date | null;
+  image: string | null;
+};
+
+type UserDTO = Pick<DbUser, "id" | "name" | "email" | "image">;
+
+async function getUser(email: string): Promise<DbUser | null> {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .schema("next_auth") // Specify the schema
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return data as DbUser;
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -24,7 +49,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // Create user
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordsMatch = await bcrypt.compare(password, user.password);
+
+        if (passwordsMatch) return user;
+
         console.log("Invalid credentials");
         return null;
       },
