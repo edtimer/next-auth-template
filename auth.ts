@@ -13,12 +13,14 @@ type UserDTO = Pick<DbUser, "id" | "name" | "email" | "image">;
 
 async function getUser(email: string): Promise<DbUser | null> {
   const { data, error } = await supabase
+    .schema("next_auth")
     .from("users")
     .select("*")
     .eq("email", email)
     .single();
 
   if (error) {
+    console.log("Failed to get user:", error);
     return null;
   }
 
@@ -29,6 +31,23 @@ async function saveUser(
   email: string,
   password: string
 ): Promise<DbUser | null> {
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const { data, error } = await supabase
+    .schema("next_auth")
+    .from("users")
+    .insert({
+      email,
+      password: hashedPassword,
+    })
+    .select("*")
+    .single();
+
+  if (error) {
+    console.error("Error inserting new user: ", error);
+    throw new Error("Error inserting new user");
+  }
+
   return data;
 }
 
@@ -43,13 +62,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = credentials?.email as string;
         const password = credentials?.password as string;
 
+        console.log("User email: ", email);
+        console.log("User password: ", password);
+
         const user = await getUser(email);
 
         if (!user) {
-          await saveUser(email, password);
+          const user = await saveUser(email, password);
+          return user;
         }
 
-        const passwordsMatch = await bcrypt.compare(password, user.password);
+        const passwordsMatch = await bcrypt.compare(password, user!.password!);
 
         if (passwordsMatch) return user;
 
