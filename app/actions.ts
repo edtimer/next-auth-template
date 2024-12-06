@@ -26,19 +26,13 @@ export async function signInWithEmailAndPassword(
       redirectTo: from,
     });
   } catch (error) {
-    console.log("Credentials sign in error: ", error.cause.err);
-    const errorMessage = error.cause.err.message;
-    // Handle authentication errors
     if (error instanceof AuthError) {
+      const errorMessage =
+        error?.cause?.err?.message || "Something went wrong.";
       return submission.reply({
         formErrors: [errorMessage],
       });
     }
-
-    // Handle unexpected errors
-    return submission.reply({
-      formErrors: ["Something went wrong."],
-    });
   }
 }
 

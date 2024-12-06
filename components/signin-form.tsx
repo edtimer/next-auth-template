@@ -34,19 +34,15 @@ export function SigninForm() {
     undefined
   );
 
-  console.log("Last result: ", lastResult);
-
   const [form, fields] = useForm({
     // Sync the result of the last submission
     lastResult,
-
+    shouldValidate: "onBlur",
     //Reuse the validation logic on the client
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: signInSchema });
     },
   });
-
-  console.log("Form inside useform result: ", form);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -95,6 +91,7 @@ export function SigninForm() {
                 id="email"
                 type="email"
                 name={fields.email.name}
+                defaultValue={fields.email.initialValue}
                 placeholder="you@example.com"
               />
               <div className="text-sm text-red-600">{fields.email.errors}</div>
@@ -106,6 +103,7 @@ export function SigninForm() {
                   id="password"
                   type={isPasswordVisible ? "text" : "password"}
                   name={fields.password.name}
+                  defaultValue={fields.password.initialValue}
                 />
                 <button
                   type="button"
