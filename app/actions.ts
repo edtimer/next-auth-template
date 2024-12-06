@@ -25,29 +25,8 @@ export async function signInWithEmailAndPassword(
       password: formData.get("password"),
       redirectTo: from,
     });
-    return {
-      status: "success" as const,
-      error: undefined,
-      value: submission.value,
-    };
   } catch (error) {
-    if (error instanceof AuthError) {
-      const errorMessage =
-        error.type === "CredentialsSignin"
-          ? "Invalid credentials"
-          : "Something went wrong.";
-
-      // Return error in the format Conform expects
-      return {
-        status: "error" as const,
-        error: {
-          // Use a special key '_form' for form-level errors
-          _form: [errorMessage],
-        },
-        value: submission.value,
-      };
-    }
-    throw error;
+    console.log("Credentials sign in error: ", error),
   }
 }
 

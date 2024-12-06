@@ -62,9 +62,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = credentials?.email as string;
         const password = credentials?.password as string;
 
-        console.log("User email: ", email);
-        console.log("User password: ", password);
-
         const user = await getUser(email);
 
         if (!user) {
@@ -76,8 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (passwordsMatch) return user;
 
-        console.log("Invalid credentials");
-        return null;
+        throw new Error("Invalid credentials");
       },
     }),
   ],

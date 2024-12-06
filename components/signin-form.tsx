@@ -34,6 +34,8 @@ export function SigninForm() {
     undefined
   );
 
+  console.log("Last result: ", lastResult);
+
   const [form, fields] = useForm({
     // Sync the result of the last submission
     lastResult,
@@ -43,6 +45,8 @@ export function SigninForm() {
       return parseWithZod(formData, { schema: signInSchema });
     },
   });
+
+  console.log("Form inside useform result: ", form);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
