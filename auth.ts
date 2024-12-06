@@ -73,7 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (passwordsMatch) return user;
 
-        throw new Error("Invalid credentials");
+        throw new Error("Invalid email or password");
       },
     }),
   ],

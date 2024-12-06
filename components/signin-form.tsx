@@ -84,6 +84,11 @@ export function SigninForm() {
           noValidate
         >
           <div className="grid gap-4">
+            {form.errors && (
+              <div className="text-sm text-red-600 text-center">
+                {form.errors}
+              </div>
+            )}
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
