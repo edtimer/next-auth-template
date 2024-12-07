@@ -3,7 +3,7 @@
 import { useCurrentSession } from "@/hooks/use-current-session";
 
 export default function ClientPage() {
-  const { status, session } = useCurrentSession();
+  const { session } = useCurrentSession();
 
   if (!session) {
     return <p>User not authenticated</p>;
