@@ -56,7 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: true,
   session: { strategy: "jwt" },
   providers: [
-    Google,
+    Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({
       authorize: async (credentials, req) => {
         const email = credentials?.email as string;
@@ -70,6 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         const passwordsMatch = await bcrypt.compare(password, user!.password!);
+        console.log("Password matching status: ", passwordsMatch);
 
         if (passwordsMatch) return user;
 

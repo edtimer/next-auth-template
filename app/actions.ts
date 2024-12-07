@@ -4,6 +4,7 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
+import { redirect } from "next/navigation";
 
 export async function signInWithEmailAndPassword(
   from: string,
@@ -19,19 +20,25 @@ export async function signInWithEmailAndPassword(
     return submission.reply();
   }
 
+  let errorOccured = false;
+
   try {
     await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
-      redirectTo: from,
     });
   } catch (error) {
     if (error instanceof AuthError) {
+      errorOccured = true;
       const errorMessage =
         error?.cause?.err?.message || "Something went wrong.";
       return submission.reply({
         formErrors: [errorMessage],
       });
+    }
+  } finally {
+    if (!errorOccured) {
+      redirect(from);
     }
   }
 }
