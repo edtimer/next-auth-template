@@ -37,8 +37,6 @@ export function SigninForm() {
   const [form, fields] = useForm({
     // Sync the result of the last submission
     lastResult,
-    shouldValidate: "onBlur",
-    //Reuse the validation logic on the client
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: signInSchema });
     },
