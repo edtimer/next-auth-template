@@ -99,6 +99,7 @@ export type Database = {
       }
       users: {
         Row: {
+          credentials_email_verified: boolean | null
           email: string | null
           emailVerified: string | null
           id: string
@@ -107,6 +108,7 @@ export type Database = {
           password: string | null
         }
         Insert: {
+          credentials_email_verified?: boolean | null
           email?: string | null
           emailVerified?: string | null
           id?: string
@@ -115,6 +117,7 @@ export type Database = {
           password?: string | null
         }
         Update: {
+          credentials_email_verified?: boolean | null
           email?: string | null
           emailVerified?: string | null
           id?: string
