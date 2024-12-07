@@ -8,13 +8,6 @@ import { supabase } from "@/lib/supabase";
 import { Database } from "@/database.types";
 import { CredentialsSignin } from "@auth/core/errors";
 
-class InvalidCredentialsError extends CredentialsSignin {
-  code = "invalid_credentials";
-  constructor() {
-    super("Invalid email or password");
-  }
-}
-
 type DbUser = Database["next_auth"]["Tables"]["users"]["Row"];
 
 type UserDTO = Pick<DbUser, "id" | "name" | "email" | "image">;
@@ -82,8 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (passwordsMatch) return user;
 
-        // throw new Error("Invalid email or password");
-        throw new InvalidCredentialsError();
+        throw new Error("Invalid email or password");
       },
     }),
   ],

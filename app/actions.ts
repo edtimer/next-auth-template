@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { AuthError, CredentialsSignin } from "next-auth";
+import { AuthError } from "next-auth";
 import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
 import { redirect } from "next/navigation";
@@ -28,16 +28,14 @@ export async function signInWithEmailAndPassword(
       password: formData.get("password"),
     });
   } catch (error) {
-    errorOccured = true;
-    let errorMessage;
-    if (error instanceof CredentialsSignin) {
-      errorMessage = error.message;
-    } else {
-      errorMessage = "Something went wrong";
+    if (error instanceof AuthError) {
+      errorOccured = true;
+      const errorMessage =
+        error?.cause?.err?.message || "Something went wrong.";
+      return submission.reply({
+        formErrors: [errorMessage],
+      });
     }
-    return submission.reply({
-      formErrors: [errorMessage],
-    });
   } finally {
     if (!errorOccured) {
       redirect(from);
