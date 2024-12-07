@@ -29,13 +29,14 @@ export async function signInWithEmailAndPassword(
       password: formData.get("password"),
     });
   } catch (error) {
-    errorOccured = true;
     let errorMessage;
     if (
       error instanceof CallbackRouteError &&
       error.cause &&
-      error.cause.err instanceof Error
+      error.cause.err instanceof Error &&
+      error.cause.provider === "credentials"
     ) {
+      errorOccured = true;
       errorMessage = error.cause.err.message;
     } else {
       errorMessage = "Something went wrong.";
