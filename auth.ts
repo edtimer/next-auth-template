@@ -6,6 +6,7 @@ import { authConfig } from "@/auth.config";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { getUser } from "@/lib/get-user";
 import { saveUser } from "@/lib/save-user";
+import { sendCredentialEmailVerificationEmail } from "@/lib/send-credentials-email-verification-email";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -20,16 +21,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const user = await getUser(email);
 
+        // The user is not found, so the user is either signing in for the first time or has entered wrong email
+        // We will assume that the user is signing in for the first time
+        // We have no way to know if the user has entered the wrong email
         if (!user) {
-          const user = await saveUser(email, password);
-          return user;
+          await sendCredentialEmailVerificationEmail(email);
+          const result = await saveUser(email, password);
+          if (result.user) {
+            return {
+              id: result.user.id,
+              email: result.user.email,
+              __type: "verification_pending",
+            };
+          }
         }
 
+        // At this step, the user exists, so e need to check whether passwords match
         const passwordsMatch = await bcrypt.compare(password, user!.password!);
-        console.log("Password matching status: ", passwordsMatch);
-
+        // If passwords match, return user, which creates a session
         if (passwordsMatch) return user;
 
+        // At this step, the user has entered the right email but wrong password
         throw new Error("Invalid email or password");
       },
     }),
