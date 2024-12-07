@@ -13,7 +13,7 @@ type RootLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={`${inter.className} scroll-smooth`}>
       <body className="min-h-screen bg-background antialiased">
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <header>
           <MainNav items={navbarLinks.main} />
         </header>
-        <main className="flex-1">{children}</main>{" "}
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );
