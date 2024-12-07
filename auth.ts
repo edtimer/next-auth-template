@@ -22,7 +22,7 @@ async function getUser(email: string): Promise<DbUser | null> {
 
   if (error) {
     console.log("Failed to get user:", error);
-    return null;
+    throw new Error("Something went wrong.");
   }
 
   return data;
@@ -46,7 +46,7 @@ async function saveUser(
 
   if (error) {
     console.error("Error inserting new user: ", error);
-    throw new Error("Error inserting new user");
+    throw new Error("Something went wrong.");
   }
 
   return data;
