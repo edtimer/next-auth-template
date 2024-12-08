@@ -34,9 +34,6 @@ export async function signInWithEmailAndPassword(
       result
     );
   } catch (error) {
-    console.log("Error name: ", error.name);
-    console.log("Error message: ", error.message);
-    let errorMessage;
     if (
       error instanceof CallbackRouteError &&
       error.cause &&
@@ -44,12 +41,20 @@ export async function signInWithEmailAndPassword(
       error.cause.provider === "credentials"
     ) {
       errorOccured = true;
-      errorMessage = error.cause.err.message;
-    } else {
-      errorMessage = "Something went wrong.";
+
+      // Check if this is our verification pending case
+      if (error.cause.err.message === "Verification pending") {
+        redirect(`/signin/verify-email`);
+      }
+      // If it's not verification pending, return the error message
+      return submission.reply({
+        formErrors: [error.cause.err.message],
+      });
     }
+
+    // Handle unexpected errors
     return submission.reply({
-      formErrors: [errorMessage],
+      formErrors: ["Something went wrong."],
     });
   } finally {
     if (!errorOccured) {
