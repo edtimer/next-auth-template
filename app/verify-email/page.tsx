@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
 import { verifyCredentialsEmail } from "@/lib/verify-credentials-email";
 
 export default async function VerifyEmailPage({
