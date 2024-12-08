@@ -13,7 +13,7 @@ export async function verifyCredentialsEmail(token: string) {
   // Handle any database errors during token fetch
   if (tokenError) {
     console.error("Error fetching verification token:", tokenError);
-    throw new Error("Failed to verify email");
+    throw new Error("Error fetching verification token");
   }
 
   // Verify we have both the token record and a valid identifier
@@ -35,9 +35,7 @@ export async function verifyCredentialsEmail(token: string) {
       console.error("Failed to delete expired token:", error);
     }
 
-    throw new Error(
-      "This verification link has expired. Please request a new one."
-    );
+    throw new Error("Email verification link has expired.");
   }
 
   try {
@@ -46,12 +44,12 @@ export async function verifyCredentialsEmail(token: string) {
       .schema("next_auth")
       .from("users")
       .update({ credentials_email_verified: true })
-      .eq("email", verificationData.identifier) // Now TypeScript knows this is a string
+      .eq("email", verificationData.identifier)
       .select()
       .single();
 
     if (updateError || !userData) {
-      throw new Error("Could not update verification status");
+      throw new Error("Could not update credentials email verification status");
     }
 
     // If verification succeeded, clean up the used token
