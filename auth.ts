@@ -25,19 +25,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // We will assume that the user is signing in for the first time
         // We have no way to know if the user has entered the wrong email
         if (!user) {
-          await sendCredentialEmailVerificationEmail(email);
-          const result = await saveUser(email, password);
-          if (result.user) {
-            return {
-              id: result.user.id,
-              email: result.user.email,
-              __type: "verification_pending",
-            };
-          }
+          // Create a new user
+          // Send the user email verification email
+          const [emailResult, newUser] = await Promise.all([
+            sendCredentialEmailVerificationEmail(email),
+            saveUser(email, password),
+          ]);
+          return {
+            id: newUser.user?.id,
+            email: newUser.user?.email,
+            __type: "verification_pending",
+          };
         }
 
-        // At this step, the user exists, so e need to check whether passwords match
+        // At this step, the user exists, so need to check whether passwords match
         const passwordsMatch = await bcrypt.compare(password, user!.password!);
+
+        // If passwords match, we need to check whether the user is trying to log in again without verifying his email address
+        // Need to write a function for this
+
         // If passwords match, return user, which creates a session
         if (passwordsMatch) return user;
 
