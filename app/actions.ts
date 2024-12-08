@@ -24,11 +24,18 @@ export async function signInWithEmailAndPassword(
   let errorOccured = false;
 
   try {
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
     });
+
+    console.log(
+      "Credentials sign in result (checking if I am getting back the return value from the authorize callback: ",
+      result
+    );
   } catch (error) {
+    console.log("Error name: ", error.name);
+    console.log("Error message: ", error.message);
     let errorMessage;
     if (
       error instanceof CallbackRouteError &&

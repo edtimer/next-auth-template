@@ -31,11 +31,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             sendCredentialEmailVerificationEmail(email),
             saveUser(email, password),
           ]);
-          return {
-            id: newUser.user?.id,
-            email: newUser.user?.email,
-            __type: "verification_pending",
-          };
+
+          if (emailResult.success && newUser.success) {
+            throw new Error("Verification pending");
+          }
         }
 
         // At this step, the user exists, so need to check whether passwords match

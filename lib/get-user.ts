@@ -13,8 +13,9 @@ export async function getUser(email: string): Promise<DbUser | null> {
     .single();
 
   if (error) {
-    console.log("Failed to get user:", error);
-    throw new Error("Something went wrong.");
+    // console.log("Failed to get user:", error);
+    // throw new Error("Something went wrong.");
+    return null;
   }
 
   return data;

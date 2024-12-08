@@ -89,6 +89,7 @@ export function SigninForm() {
                 id="email"
                 type="email"
                 name={fields.email.name}
+                key={fields.email.key}
                 defaultValue={fields.email.initialValue}
                 placeholder="you@example.com"
               />
@@ -101,6 +102,7 @@ export function SigninForm() {
                   id="password"
                   type={isPasswordVisible ? "text" : "password"}
                   name={fields.password.name}
+                  key={fields.password.key}
                   defaultValue={fields.password.initialValue}
                 />
                 <button

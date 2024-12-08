@@ -2,18 +2,8 @@ import "server-only";
 import bcrypt from "bcrypt";
 import { randomBytes } from "node:crypto";
 import { supabase } from "@/lib/supabase";
-import { Database } from "@/database.types";
 
-type DbUser = Database["next_auth"]["Tables"]["users"]["Row"];
-
-export async function saveUser(
-  email: string,
-  password: string
-): Promise<{
-  user: DbUser | null;
-  status: "created" | "verification_sent";
-  message?: string;
-}> {
+export async function saveUser(email: string, password: string) {
   // Generate the verification token
   const verificationToken = randomBytes(32).toString("hex");
 
@@ -56,8 +46,7 @@ export async function saveUser(
   }
 
   return {
-    user,
-    status: "verification_sent",
-    message: "Verification email has been sent",
+    success: true,
+    message: "User created",
   };
 }
