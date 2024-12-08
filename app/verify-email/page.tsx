@@ -5,14 +5,17 @@ export default async function VerifyEmailPage({
 }: {
   searchParams: { token?: string };
 }) {
+  const verificationToken = (await searchParams).token;
+
+  console.log("Verification Token: ", verificationToken);
   // First handle the case where no token is provided
-  if (!searchParams.token) {
+  if (!verificationToken) {
     return <h1>Verification Failed</h1>;
   }
 
   // Attempt to verify the email
   const verificationResult = await verifyCredentialsEmail(
-    searchParams.token
+    verificationToken
   ).catch((error) => {
     // This will capture any errors thrown by verifyCredentialsEmail
     return {

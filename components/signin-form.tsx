@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -96,7 +97,17 @@ export function SigninForm() {
               <div className="text-sm text-red-600">{fields.email.errors}</div>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <div className="text-sm">
+                  <Link
+                    href="/forgot-password"
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+              </div>
               <div className="relative">
                 <Input
                   id="password"

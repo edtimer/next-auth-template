@@ -1,11 +1,8 @@
 import "server-only";
 import bcrypt from "bcrypt";
-import { randomBytes } from "node:crypto";
 import { supabase } from "@/lib/supabase";
 
-export async function saveUser(email: string, password: string) {
-  // Generate the verification token
-  const verificationToken = randomBytes(32).toString("hex");
+export async function saveUser(email: string, password: string, verificationToken: string) {
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -17,7 +14,7 @@ export async function saveUser(email: string, password: string) {
     .insert({
       email,
       password: hashedPassword,
-      credentials_email_verified: false, // Using our new column
+      credentials_email_verified: false,
     })
     .select("*")
     .single();

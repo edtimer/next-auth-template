@@ -4,20 +4,13 @@ import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { sesClient } from "@/lib/aws";
 import { EmailVerificationTemplate } from "@/components/email-verification-template";
 
-export async function sendCredentialEmailVerificationEmail(email: string) {
-  const token = randomBytes(32).toString("hex");
-
-  // Ensure we have the required environment variables
-  if (!process.env.NEXTAUTH_URL) {
-    throw new Error("NEXTAUTH_URL environment variable is not set");
-  }
-  if (!process.env.AWS_SES_FROM_EMAIL) {
-    throw new Error("AWS_SES_FROM_EMAIL environment variable is not set");
-  }
-
+export async function sendCredentialEmailVerificationEmail(
+  email: string,
+  verificationToken: string
+) {
   // Create verification URL with base64url encoded token for safer URLs
   const verificationUrl = new URL("/verify-email", process.env.NEXTAUTH_URL);
-  verificationUrl.searchParams.set("token", token);
+  verificationUrl.searchParams.set("token", verificationToken);
 
   try {
     // Render the email template
@@ -50,7 +43,7 @@ export async function sendCredentialEmailVerificationEmail(email: string) {
     await sesClient.send(sendEmailCommand);
 
     return {
-      token,
+      verificationToken,
       success: true,
     };
   } catch (error) {

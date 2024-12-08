@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { randomBytes } from "node:crypto";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
@@ -25,11 +26,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // We will assume that the user is signing in for the first time
         // We have no way to know if the user has entered the wrong email
         if (!user) {
+          const verificationToken = randomBytes(32).toString("hex");
           // Create a new user
           // Send the user email verification email
           const [emailResult, newUser] = await Promise.all([
-            sendCredentialEmailVerificationEmail(email),
-            saveUser(email, password),
+            sendCredentialEmailVerificationEmail(email, verificationToken),
+            saveUser(email, password, verificationToken),
           ]);
 
           if (emailResult.success && newUser.success) {
