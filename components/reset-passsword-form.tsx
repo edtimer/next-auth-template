@@ -10,12 +10,7 @@ import { resetPassword } from "@/app/password-reset-actions";
 import { z } from "zod";
 
 const resetPasswordSchema = z.object({
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number"),
+  password: z.string(),
 });
 
 interface Props {
@@ -59,7 +54,6 @@ export function ResetPasswordForm({ email, token }: Props) {
             id="password"
             type="password"
             name={fields.password.name}
-            key={fields.password.key}
             defaultValue={fields.password.initialValue}
             className="mt-2"
           />
