@@ -8,6 +8,7 @@ import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { getUser } from "@/lib/get-user";
 import { saveUser } from "@/lib/save-user";
 import { sendCredentialEmailVerificationEmail } from "@/lib/send-credentials-email-verification-email";
+import { checkCredentialsEmailVerificationStatus } from "@/lib/check-credentials-email-verification-status";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -42,14 +43,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // At this step, the user exists, so need to check whether passwords match
         const passwordsMatch = await bcrypt.compare(password, user!.password!);
 
-        // If passwords match, we need to check whether the user is trying to log in again without verifying his email address
-        // Need to write a function for this
+        if (!passwordsMatch) {
+          throw new Error("Invalid email or password");
+        }
 
-        // If passwords match, return user, which creates a session
-        if (passwordsMatch) return user;
+        // Check email verification status
+        const verificationStatus =
+          await checkCredentialsEmailVerificationStatus(email);
 
-        // At this step, the user has entered the right email but wrong password
-        throw new Error("Invalid email or password");
+        if (!verificationStatus.verified) {
+          throw new Error("Verification pending");
+        }
+
+        // Email is verified and password matches - return user
+        return user;
       },
     }),
   ],
