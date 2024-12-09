@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { handleSignOut } from "@/app/actions";
+import { handleSignOut } from "@/app/signin-actions";
 import { useActionState } from "react";
 import { Icons } from "@/components/icons";
 

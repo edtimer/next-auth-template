@@ -9,7 +9,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { signInWithGoogle, signInWithEmailAndPassword } from "@/app/actions";
+import {
+  signInWithGoogle,
+  signInWithEmailAndPassword,
+} from "@/app/signin-actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { signInSchema } from "@/app/schema";
