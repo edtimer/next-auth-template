@@ -1,16 +1,15 @@
 import { render } from "@react-email/render";
-import { randomBytes } from "node:crypto";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { sesClient } from "@/lib/aws";
 import { PasswordResetTemplate } from "@/components/password-reset-email-template";
 
 export async function sendPasswordResetEmail(
   email: string,
-  resetToken: string
+  resetPasswordToken: string
 ) {
   // Create reset URL with the token
   const resetUrl = new URL("/reset-password", process.env.NEXTAUTH_URL);
-  resetUrl.searchParams.set("token", resetToken);
+  resetUrl.searchParams.set("token", resetPasswordToken);
 
   try {
     // Render the email template

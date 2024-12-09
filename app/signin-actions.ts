@@ -12,7 +12,7 @@ export async function signInWithEmailAndPassword(
   prevState: unknown,
   formData: FormData
 ) {
-  // First, validate the form data
+  // Validate the form data
   const submission = parseWithZod(formData, {
     schema: signInSchema,
   });

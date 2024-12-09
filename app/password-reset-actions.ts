@@ -8,13 +8,15 @@ import { savePasswordResetToken } from "@/lib/save-password-reset-token";
 import { randomBytes } from "node:crypto";
 import { updatePassword } from "@/lib/update-passsord";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
+import { forgotPasswordSchema } from "@/app/schema";
 
 export async function requestPasswordReset(
   prevState: unknown,
   formData: FormData
 ) {
+  // Validate the form data
   const submission = parseWithZod(formData, {
-    schema,
+    schema: forgotPasswordSchema,
   });
 
   if (submission.status !== "success") {
@@ -22,20 +24,13 @@ export async function requestPasswordReset(
   }
 
   const email = submission.value.email;
-  const resetToken = randomBytes(32).toString("hex");
+  const resetPasswordToken = randomBytes(32).toString("hex");
 
   try {
-    // Save the reset token first
-    await savePasswordResetToken(email, resetToken);
-
-    // Then send the email
-    const emailResult = await sendPasswordResetEmail(email, resetToken);
-
-    if (!emailResult.success) {
-      return submission.reply({
-        formErrors: ["Failed to send reset email. Please try again."],
-      });
-    }
+    const [resetTokenResult, sendPasswordResult] = await Promise.all([
+      savePasswordResetToken(email, resetPasswordToken),
+      sendPasswordResetEmail(email, resetPasswordToken),
+    ]);
 
     // Redirect to success page
     redirect("/forgot-password/check-email");

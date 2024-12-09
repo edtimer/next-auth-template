@@ -7,11 +7,7 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useActionState } from "react";
 import { requestPasswordReset } from "@/app/password-reset-actions";
-import { z } from "zod";
-
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-});
+import { forgotPasswordSchema } from "@/app/schema";
 
 export function ForgotPasswordForm() {
   const [lastResult, action, isPending] = useActionState(
@@ -51,7 +47,6 @@ export function ForgotPasswordForm() {
               id="email"
               type="email"
               name={fields.email.name}
-              key={fields.email.key}
               defaultValue={fields.email.initialValue}
               className="mt-2"
             />
@@ -63,7 +58,7 @@ export function ForgotPasswordForm() {
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? "Sending..." : "Send reset link"}
+            {isPending ? "Sending reset link..." : "Send reset link"}
           </Button>
         </form>
       </div>
