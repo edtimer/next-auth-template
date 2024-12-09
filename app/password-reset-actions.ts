@@ -6,8 +6,6 @@ import { redirect } from "next/navigation";
 import { sendPasswordResetEmail } from "@/lib/send-password-reset-email";
 import { savePasswordResetToken } from "@/lib/save-password-reset-token";
 import { randomBytes } from "node:crypto";
-import { updatePassword } from "@/lib/update-passsord";
-import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
 import { forgotPasswordSchema } from "@/app/schema";
 
 export async function requestPasswordReset(
@@ -27,13 +25,40 @@ export async function requestPasswordReset(
   const resetPasswordToken = randomBytes(32).toString("hex");
 
   try {
-    const [resetTokenResult, sendPasswordResult] = await Promise.all([
-      savePasswordResetToken(email, resetPasswordToken),
-      sendPasswordResetEmail(email, resetPasswordToken),
-    ]);
+    // First save the token
+    const tokenResult = await savePasswordResetToken(email, resetPasswordToken);
 
-    // Redirect to success page
-    redirect("/forgot-password/check-email");
+    // Redirect without sending email if:
+    // 1. User not found
+    // 2. Active token exists
+    if (
+      tokenResult.success &&
+      (tokenResult.message === "User doesn't exist" ||
+        tokenResult.message === "Active reset token exists")
+    ) {
+      redirect("/forgot-password/check-email");
+    }
+
+    // Send email only for newly created tokens
+    if (
+      tokenResult.success &&
+      tokenResult.message === "Reset token saved successfully"
+    ) {
+      try {
+        await sendPasswordResetEmail(email, resetPasswordToken);
+        redirect("/forgot-password/check-email");
+      } catch (emailError) {
+        console.error("Failed to send password reset email:", emailError);
+        return submission.reply({
+          formErrors: ["Failed to send reset email. Please try again."],
+        });
+      }
+    }
+
+    // If token save failed
+    return submission.reply({
+      formErrors: ["Something went wrong. Please try again."],
+    });
   } catch (error) {
     console.error("Password reset request failed:", error);
     return submission.reply({

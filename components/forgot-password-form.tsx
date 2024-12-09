@@ -26,7 +26,7 @@ export function ForgotPasswordForm() {
     <div className="px-6 py-16 lg:px-8">
       <div className="mx-auto max-w-sm">
         <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
-          Reset your password
+          Forgot password?
         </h2>
         <form
           id={form.id}
@@ -58,7 +58,7 @@ export function ForgotPasswordForm() {
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? "Sending reset link..." : "Send reset link"}
+            {isPending ? "Sending..." : "Send password reset link"}
           </Button>
         </form>
       </div>
