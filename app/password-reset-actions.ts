@@ -1,18 +1,17 @@
 "use server";
 
-import { z } from "zod";
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { sendPasswordResetEmail } from "@/lib/send-password-reset-email";
 import { savePasswordResetToken } from "@/lib/save-password-reset-token";
 import { randomBytes } from "node:crypto";
-import { forgotPasswordSchema } from "@/app/schema";
+import { forgotPasswordSchema, resetPasswordSchema } from "@/app/schema";
 
 export async function requestPasswordReset(
   prevState: unknown,
   formData: FormData
 ) {
-  // Validate the form data
+  // First, validate the form data
   const submission = parseWithZod(formData, {
     schema: forgotPasswordSchema,
   });
@@ -24,55 +23,58 @@ export async function requestPasswordReset(
   const email = submission.value.email;
   const resetPasswordToken = randomBytes(32).toString("hex");
 
+  // Save the token and get result
+  let tokenResult;
   try {
-    // First save the token
-    const tokenResult = await savePasswordResetToken(email, resetPasswordToken);
-
-    // Redirect without sending email if:
-    // 1. User not found
-    // 2. Active token exists
-    if (
-      tokenResult.success &&
-      (tokenResult.message === "User doesn't exist" ||
-        tokenResult.message === "Active reset token exists")
-    ) {
-      redirect("/forgot-password/check-email");
-    }
-
-    // Send email only for newly created tokens
-    if (
-      tokenResult.success &&
-      tokenResult.message === "Reset token saved successfully"
-    ) {
-      try {
-        await sendPasswordResetEmail(email, resetPasswordToken);
-        redirect("/forgot-password/check-email");
-      } catch (emailError) {
-        console.error("Failed to send password reset email:", emailError);
-        return submission.reply({
-          formErrors: ["Failed to send reset email."],
-        });
-      }
-    }
-
-    // If token save failed
-    return submission.reply({
-      formErrors: ["Something went wrong. Please try again."],
-    });
+    tokenResult = await savePasswordResetToken(email, resetPasswordToken);
   } catch (error) {
     console.error("Password reset request failed:", error);
     return submission.reply({
       formErrors: ["Something went wrong. Please try again."],
     });
   }
+
+  // Handle unsuccessful token save
+  if (!tokenResult.success) {
+    return submission.reply({
+      formErrors: ["Something went wrong. Please try again."],
+    });
+  }
+
+  // If user doesn't exist or has active token, redirect to check email page
+  if (
+    tokenResult.message === "User doesn't exist" ||
+    tokenResult.message === "Active reset token exists"
+  ) {
+    redirect("/forgot-password/check-email");
+  }
+
+  // If we have a new token, try to send the email
+  if (tokenResult.message === "Reset token saved successfully") {
+    try {
+      const emailResult = await sendPasswordResetEmail(
+        email,
+        resetPasswordToken
+      );
+
+      if (!emailResult.success) {
+        return submission.reply({
+          formErrors: ["Failed to send reset email. Please try again."],
+        });
+      }
+    } catch (error) {
+      console.error("Failed to send password reset email:", error);
+      return submission.reply({
+        formErrors: ["Failed to send reset email. Please try again."],
+      });
+    }
+  }
+
+  // If we get here successfully, redirect to check email page
+  redirect("/forgot-password/check-email");
 }
 
-const resetPasswordSchema = z.object({
-  password: z.string(),
-});
-
 export async function resetPassword(
-  email: string,
   token: string,
   prevState: unknown,
   formData: FormData

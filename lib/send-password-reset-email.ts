@@ -44,7 +44,10 @@ export async function sendPasswordResetEmail(
       success: true,
     };
   } catch (error) {
-    console.error("Failed to send password reset email:", error);
+    console.error(
+      "sendPasswordResetEmail: Failed to send password reset email:",
+      error
+    );
     return {
       success: false,
       error: "Failed to send password reset email",
