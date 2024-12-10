@@ -1,3 +1,5 @@
+import { ResetPasswordForm } from "@/components/reset-passsword-form";
+
 export default function ResetPasswordPage() {
-  return <h1> Reset password form will be here</h1>;
+  return <ResetPasswordForm email="" token="" />;
 }

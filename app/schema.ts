@@ -16,3 +16,9 @@ export const forgotPasswordSchema = z.object({
     .min(1, "Email is required")
     .email("Invalid email"),
 });
+
+export const resetPasswordSchema = z.object({
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(1, "Password is required"),
+});

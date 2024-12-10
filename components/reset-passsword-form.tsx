@@ -7,18 +7,15 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useActionState } from "react";
 import { resetPassword } from "@/app/password-reset-actions";
-import { z } from "zod";
+import { resetPasswordSchema } from "@/app/schema";
 
-const resetPasswordSchema = z.object({
-  password: z.string(),
-});
-
-interface Props {
+export function ResetPasswordForm({
+  email,
+  token,
+}: {
   email: string;
   token: string;
-}
-
-export function ResetPasswordForm({ email, token }: Props) {
+}) {
   // Bind the email and token to the action
   const boundResetPassword = resetPassword.bind(null, email, token);
   const [lastResult, action, isPending] = useActionState(
@@ -31,11 +28,10 @@ export function ResetPasswordForm({ email, token }: Props) {
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: resetPasswordSchema });
     },
-    shouldValidate: "onBlur",
   });
 
   return (
-    <div>
+    <div className="px-6 py-16 lg:px-8 mx-auto max-w-sm">
       <h1 className="text-2xl font-bold text-center mb-6">Reset Password</h1>
       <form
         id={form.id}
@@ -49,7 +45,7 @@ export function ResetPasswordForm({ email, token }: Props) {
         )}
 
         <div>
-          <Label htmlFor="password">New Password</Label>
+          <Label htmlFor="password">New password</Label>
           <Input
             id="password"
             type="password"
@@ -65,7 +61,7 @@ export function ResetPasswordForm({ email, token }: Props) {
         </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Resetting..." : "Reset Password"}
+          {isPending ? "Resetting..." : "Reset password"}
         </Button>
       </form>
     </div>

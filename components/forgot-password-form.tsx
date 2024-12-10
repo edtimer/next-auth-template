@@ -23,45 +23,41 @@ export function ForgotPasswordForm() {
   });
 
   return (
-    <div className="px-6 py-16 lg:px-8">
-      <div className="mx-auto max-w-sm">
-        <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
-          Forgot password?
-        </h2>
-        <form
-          id={form.id}
-          onSubmit={form.onSubmit}
-          action={action}
-          className="mt-6 space-y-6"
-          noValidate
-        >
-          {form.errors && (
-            <div className="text-sm text-red-600 text-center">
-              {form.errors}
+    <div className="px-6 py-16 lg:px-8 mx-auto max-w-sm">
+      <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
+        Forgot password?
+      </h2>
+      <form
+        id={form.id}
+        onSubmit={form.onSubmit}
+        action={action}
+        className="mt-6 space-y-6"
+        noValidate
+      >
+        {form.errors && (
+          <div className="text-sm text-red-600 text-center">{form.errors}</div>
+        )}
+
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            name={fields.email.name}
+            defaultValue={fields.email.initialValue}
+            className="mt-2"
+          />
+          {fields.email.errors && (
+            <div className="text-sm text-red-600 mt-1">
+              {fields.email.errors}
             </div>
           )}
+        </div>
 
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              name={fields.email.name}
-              defaultValue={fields.email.initialValue}
-              className="mt-2"
-            />
-            {fields.email.errors && (
-              <div className="text-sm text-red-600 mt-1">
-                {fields.email.errors}
-              </div>
-            )}
-          </div>
-
-          <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? "Sending..." : "Send password reset link"}
-          </Button>
-        </form>
-      </div>
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Sending..." : "Send password reset link"}
+        </Button>
+      </form>
     </div>
   );
 }
