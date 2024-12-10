@@ -45,12 +45,12 @@ export async function requestPasswordReset(
     });
   }
 
-  // If user doesn't exist or has active token, redirect to check email page
+  // If user doesn't exist or has active token, redirect to email sent page
   if (
     tokenResult.message === "User doesn't exist" ||
     tokenResult.message === "Active reset token exists"
   ) {
-    redirect("/forgot-password/check-email");
+    redirect("/forgot-password/email-sent");
   }
 
   // If we have a new token, try to send the email
@@ -74,8 +74,8 @@ export async function requestPasswordReset(
     }
   }
 
-  // If we get here successfully, redirect to check email page
-  redirect("/forgot-password/check-email");
+  // If we get here successfully, redirect to email sent page
+  redirect("/forgot-password/email-sent");
 }
 
 // Reset user password

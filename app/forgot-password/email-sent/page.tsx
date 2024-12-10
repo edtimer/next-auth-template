@@ -4,7 +4,9 @@ import { Icons } from "@/components/icons";
 export default function CheckEmailPage() {
   return (
     <div className="mx-auto max-w-md mt-12 px-4 lg:px-8 text-center">
-      <h1 className="text-2xl font-bold mt-12 mb-6">Check Your Email</h1>
+      <h1 className="text-2xl font-bold mt-12 mb-6 text-green-600">
+        Password Reset Link Sent
+      </h1>
       <p className="text-gray-700 leading-relaxed text-pretty">
         If an account exists with the provided email address, we've sent a
         password reset link. The link will expire in 24 hours.
