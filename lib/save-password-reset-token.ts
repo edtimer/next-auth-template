@@ -49,6 +49,19 @@ export async function savePasswordResetToken(
       }
     }
 
+    // Delete expired token before creating new one
+    const { error: deleteError } = await supabase
+      .schema("next_auth")
+      .from("reset_tokens")
+      .delete()
+      .eq("identifier", email);
+
+    if (deleteError) {
+      console.error("Failed to delete expired token:", deleteError);
+      throw new Error("Failed to clean up expired token");
+    }
+
+    // Create new token
     const { error: insertError } = await supabase
       .schema("next_auth")
       .from("reset_tokens")
