@@ -8,6 +8,7 @@ import { randomBytes } from "node:crypto";
 import { forgotPasswordSchema, resetPasswordSchema } from "@/app/schema";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
 import { updatePassword } from "@/lib/update-passsord";
+import { ResetPasswordTokenVerificationError } from "@/lib/token-verification-error";
 
 export async function requestPasswordReset(
   prevState: unknown,
@@ -89,24 +90,36 @@ export async function resetPassword(
     return submission.reply();
   }
 
+  if (!token) {
+    return submission.reply({
+      formErrors: ["Token not found."],
+    });
+  }
+
   try {
-    // Verify token again as an extra security measure
-     await verifyPasswordResetToken(token);
+    await verifyPasswordResetToken(token);
 
     // Update the password
-    await updatePassword(email, submission.value.password);
-
-    // Redirect to success page
-    // Redirect does not work inside a try catch block
-    redirect("/reset-password/success");
+    await updatePassword(submission.value.password);
   } catch (error) {
-    console.error("Password reset failed:", error);
-    return submission.reply({
-      formErrors: [
-        error instanceof Error
-          ? error.message
-          : "Failed to reset password. Please try again.",
-      ],
-    });
+    if (error instanceof ResetPasswordTokenVerificationError) {
+      switch (error.code) {
+        case "TOKEN_EXPIRED":
+          return submission.reply({
+            formErrors: ["Reset token has expired."],
+          });
+          break;
+        case "TOKEN_INVALID":
+          return submission.reply({
+            formErrors: ["Reset token is invalid."],
+          });
+          break;
+        case "SYSTEM_ERROR":
+          return submission.reply({
+            formErrors: ["Something went wrong."],
+          });
+          break;
+      }
+    }
   }
 }

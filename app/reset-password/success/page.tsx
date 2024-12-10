@@ -1,17 +1,20 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
 
 export default function PasswordResetSuccessPage() {
   return (
-    <div className="container max-w-lg py-16 text-center">
-      <h1 className="text-2xl font-bold mb-4">Password Reset Complete</h1>
-      <p className="text-muted-foreground mb-6">
-        Your password has been successfully updated. You can now sign in with
-        your new password.
+    <div className="mx-auto max-w-sm mt-12 px-4 lg:px-8 text-center">
+      <h2 className="text-green-600 text-2xl font-bold">Password Reset</h2>
+      <p className="text-gray-700 my-4">
+        Your password has been successfully updated.
       </p>
-      <Button asChild>
-        <Link href="/signin">Sign in</Link>
-      </Button>
+      <Link
+        href="/signin"
+        className="flex justify-center items-center group p-2"
+      >
+        <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-primary" />
+        Sign In
+      </Link>
     </div>
   );
 }
