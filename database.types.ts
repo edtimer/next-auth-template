@@ -68,6 +68,24 @@ export type Database = {
           },
         ]
       }
+      reset_tokens: {
+        Row: {
+          expires: string
+          identifier: string | null
+          token: string
+        }
+        Insert: {
+          expires: string
+          identifier?: string | null
+          token: string
+        }
+        Update: {
+          expires?: string
+          identifier?: string | null
+          token?: string
+        }
+        Relationships: []
+      }
       sessions: {
         Row: {
           expires: string
@@ -131,22 +149,16 @@ export type Database = {
         Row: {
           expires: string
           identifier: string | null
-          reset_password_token: string | null
-          reset_password_token_expires_at: string | null
           token: string
         }
         Insert: {
           expires: string
           identifier?: string | null
-          reset_password_token?: string | null
-          reset_password_token_expires_at?: string | null
           token: string
         }
         Update: {
           expires?: string
           identifier?: string | null
-          reset_password_token?: string | null
-          reset_password_token_expires_at?: string | null
           token?: string
         }
         Relationships: []

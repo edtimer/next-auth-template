@@ -31,18 +31,15 @@ export async function savePasswordResetToken(
     // Check for existing reset token
     const { data: existingToken, error: tokenError } = await supabase
       .schema("next_auth")
-      .from("verification_tokens")
+      .from("reset_tokens")
       .select("*")
       .eq("identifier", email)
-      .not("reset_password_token", "is", null)
       .single();
 
     if (existingToken) {
       // Check if existing token is still valid
       const now = new Date();
-      const tokenExpiry = new Date(
-        existingToken.reset_password_token_expires_at!
-      );
+      const tokenExpiry = new Date(existingToken.expires!);
 
       if (now < tokenExpiry) {
         return {
@@ -52,18 +49,16 @@ export async function savePasswordResetToken(
       }
     }
 
-    const { error: upsertError } = await supabase
+    const { error: insertError } = await supabase
       .schema("next_auth")
-      .from("verification_tokens")
-      .upsert({
+      .from("reset_tokens")
+      .insert({
         identifier: email,
-        reset_password_token: resetPasswordToken,
-        reset_password_token_expires_at: new Date(
-          Date.now() + 24 * 60 * 60 * 1000
-        ).toISOString(),
+        token: resetPasswordToken,
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       });
 
-    if (upsertError) {
+    if (insertError) {
       throw new Error("Failed to save reset token");
     }
 

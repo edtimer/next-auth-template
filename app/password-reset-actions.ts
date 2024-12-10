@@ -50,7 +50,7 @@ export async function requestPasswordReset(
       } catch (emailError) {
         console.error("Failed to send password reset email:", emailError);
         return submission.reply({
-          formErrors: ["Failed to send reset email. Please try again."],
+          formErrors: ["Failed to send reset email."],
         });
       }
     }
