@@ -16,7 +16,7 @@ export async function updatePassword(email: string, newPassword: string) {
       .select()
       .single();
 
-    if (updateError || !user) {
+    if (updateError) {
       console.error("Failed to update password:", updateError);
       throw new Error("Failed to update password");
     }
@@ -24,7 +24,7 @@ export async function updatePassword(email: string, newPassword: string) {
     // Clean up the reset token after successful password update
     const { error: deleteError } = await supabase
       .schema("next_auth")
-      .from("verification_tokens")
+      .from("reset_tokens")
       .delete()
       .eq("identifier", email);
 

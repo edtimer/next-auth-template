@@ -12,10 +12,10 @@ import { resetPasswordSchema } from "@/app/schema";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const token = searchParams.token;
+  const token = searchParams.get("token");
 
   // Bind the email and token to the action
-  const boundResetPassword = resetPassword.bind(null, token);
+  const boundResetPassword = resetPassword.bind(null, token!);
   const [lastResult, action, isPending] = useActionState(
     boundResetPassword,
     undefined
