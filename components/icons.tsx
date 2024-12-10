@@ -1,6 +1,14 @@
-import { Eye, EyeOff, LogOut, Loader, LucideProps } from "lucide-react";
+import {
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  LogOut,
+  Loader,
+  LucideProps,
+} from "lucide-react";
 
 export const Icons = {
+  arrowLeft: ArrowLeft,
   eye: Eye,
   eyeOff: EyeOff,
   logOut: LogOut,

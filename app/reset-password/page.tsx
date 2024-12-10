@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Icons } from "@/components/icons";
 import { ResetPasswordForm } from "@/components/reset-passsword-form";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
 import { ResetPasswordTokenVerificationError } from "@/lib/token-verification-error";
@@ -9,11 +11,18 @@ export function ErrorMessage({
 }) {
   const message = ResetPasswordTokenVerificationError.getErrorMessage(code);
   return (
-    <div className="mx-auto max-w-sm mt-12 text-center">
-      <h2 className="text-red-600 text-2xl font-bold mb-4">
+    <div className="mx-auto max-w-sm mt-12 px-4 lg:px-8 text-center">
+      <h2 className="text-red-600 text-2xl font-bold">
         Token Verification Error
       </h2>
-      <p className="text-gray-600">{message}</p>
+      <p className="text-gray-700 my-4">{message}</p>
+      <Link
+        href="/forgot-password"
+        className="flex justify-center items-center group p-2"
+      >
+        <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-primary" />
+        Forgot password
+      </Link>
     </div>
   );
 }
