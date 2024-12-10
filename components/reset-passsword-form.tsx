@@ -4,20 +4,18 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "@conform-to/react";
+import { useSearchParams } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
 import { useActionState } from "react";
 import { resetPassword } from "@/app/password-reset-actions";
 import { resetPasswordSchema } from "@/app/schema";
 
-export function ResetPasswordForm({
-  email,
-  token,
-}: {
-  email: string;
-  token: string;
-}) {
+export function ResetPasswordForm() {
+  const searchParams = useSearchParams();
+  const token = searchParams.token;
+
   // Bind the email and token to the action
-  const boundResetPassword = resetPassword.bind(null, email, token);
+  const boundResetPassword = resetPassword.bind(null, token);
   const [lastResult, action, isPending] = useActionState(
     boundResetPassword,
     undefined
