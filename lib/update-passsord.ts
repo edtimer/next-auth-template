@@ -1,6 +1,7 @@
 import "server-only";
 import bcrypt from "bcrypt";
 import { supabase } from "@/lib/supabase";
+import { UpdatePasswordError } from "@/lib/update-password-error";
 
 export async function updatePassword(email: string, newPassword: string) {
   try {
@@ -18,7 +19,7 @@ export async function updatePassword(email: string, newPassword: string) {
 
     if (updateError) {
       console.error("Failed to update password:", updateError);
-      throw new Error("Failed to update password");
+      throw new UpdatePasswordError("PASSWORD_UPDATE_FAILED");
     }
 
     // Clean up the reset token after successful password update
@@ -35,7 +36,12 @@ export async function updatePassword(email: string, newPassword: string) {
 
     return { success: true };
   } catch (error) {
-    console.error("Password update failed:", error);
-    throw new Error("Could not update password. Please try again.");
+    // If it's our known error type, rethrow it
+    if (error instanceof UpdatePasswordError) {
+      throw error;
+    }
+    // For unexpected errors (network issues, etc.), log and throw a generic error
+    console.error("Unexpected error during password update:", error);
+    throw new UpdatePasswordError("SYSTEM_ERROR");
   }
 }

@@ -9,6 +9,7 @@ import { forgotPasswordSchema, resetPasswordSchema } from "@/app/schema";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
 import { updatePassword } from "@/lib/update-passsord";
 import { ResetPasswordTokenVerificationError } from "@/lib/token-verification-error";
+import { UpdatePasswordError } from "@/lib/update-password-error";
 
 export async function requestPasswordReset(
   prevState: unknown,
@@ -77,6 +78,7 @@ export async function requestPasswordReset(
   redirect("/forgot-password/check-email");
 }
 
+// Reset user password
 export async function resetPassword(
   token: string,
   prevState: unknown,
@@ -92,16 +94,17 @@ export async function resetPassword(
 
   if (!token) {
     return submission.reply({
-      formErrors: ["Token not found."],
+      formErrors: ["Reset token not found."],
     });
   }
 
-  try {
-    await verifyPasswordResetToken(token);
+  let errorOccured = false;
 
-    // Update the password
-    await updatePassword(submission.value.password);
+  try {
+    const { email } = await verifyPasswordResetToken(token);
+    await updatePassword(email!, submission.value.password);
   } catch (error) {
+    errorOccured = true;
     if (error instanceof ResetPasswordTokenVerificationError) {
       switch (error.code) {
         case "TOKEN_EXPIRED":
@@ -120,6 +123,19 @@ export async function resetPassword(
           });
           break;
       }
+    }
+    if (error instanceof UpdatePasswordError) {
+      switch (error.code) {
+        case "PASSWORD_UPDATE_FAILED":
+          return submission.reply({
+            formErrors: ["Failed to update password."],
+          });
+          break;
+      }
+    }
+  } finally {
+    if (!errorOccured) {
+      redirect("/reset-password/success");
     }
   }
 }

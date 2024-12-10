@@ -24,6 +24,7 @@ export async function verifyPasswordResetToken(token: string) {
 
     return {
       success: true,
+      email: tokenData.identifier,
     };
   } catch (error) {
     // If it's our known error type, rethrow it
