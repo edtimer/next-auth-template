@@ -1,33 +1,78 @@
 import { verifyCredentialsEmail } from "@/lib/verify-credentials-email";
 
+import Link from "next/link";
+import { Icons } from "@/components/icons";
+import { VerifyEmailTokenVerificationError } from "@/lib/token-verification-error";
+
+export function ErrorMessage({
+  code,
+}: {
+  code: keyof typeof VerifyEmailTokenVerificationError.errorMessages;
+}) {
+  const message = VerifyEmailTokenVerificationError.getErrorMessage(code);
+  return (
+    <div className="mx-auto max-w-sm mt-12 px-4 lg:px-8 text-center">
+      <h2 className="text-red-600 text-2xl font-bold">
+        Token Verification Error
+      </h2>
+      <p className="text-gray-700 my-4">{message}</p>
+      <Link
+        href="/signin"
+        className="flex justify-center items-center group p-2"
+      >
+        <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-primary" />
+        Sign In
+      </Link>
+    </div>
+  );
+}
+
 export default async function VerifyEmailPage({
   searchParams,
 }: {
   searchParams: { token?: string };
 }) {
-  const verificationToken = (await searchParams).token;
+  const token = (await searchParams).token;
 
-  console.log("Verification Token: ", verificationToken);
   // First handle the case where no token is provided
-  if (!verificationToken) {
-    return <h1>Verification Failed</h1>;
+  if (!token) {
+    return <ErrorMessage code="TOKEN_NOT_FOUND" />;
   }
 
-  // Attempt to verify the email
-  const verificationResult = await verifyCredentialsEmail(
-    verificationToken
-  ).catch((error) => {
-    // This will capture any errors thrown by verifyCredentialsEmail
-    return {
-      error: error instanceof Error ? error.message : "Verification failed",
-    };
-  });
-
-  // If verification failed, show error UI
-  if ("error" in verificationResult) {
-    return <h1>Verification Failed</h1>;
+  try {
+    await verifyCredentialsEmail(token);
+  } catch (error) {
+    if (error instanceof VerifyEmailTokenVerificationError) {
+      switch (error.code) {
+        case "TOKEN_EXPIRED":
+          return <ErrorMessage code="TOKEN_EXPIRED" />;
+          break;
+        case "TOKEN_INVALID":
+          return <ErrorMessage code="TOKEN_INVALID" />;
+          break;
+        case "SYSTEM_ERROR":
+          return <ErrorMessage code="SYSTEM_ERROR" />;
+          break;
+      }
+    }
   }
 
-  // If we get here, verification was successful
-  return <h1>Email Verified!</h1>;
+  // Verification successful
+  return (
+    <div className="mx-auto max-w-md mt-12 px-4 lg:px-8 text-center">
+      <h2 className="text-green-600 text-2xl font-bold">
+        Email Verification Successful
+      </h2>
+      <p className="text-gray-700 my-4">
+        Your email has been successfully verified.
+      </p>
+      <Link
+        href="/signin"
+        className="flex justify-center items-center group p-2 text-blue-600"
+      >
+        <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-blue-600" />
+        Sign In
+      </Link>
+    </div>
+  );
 }
