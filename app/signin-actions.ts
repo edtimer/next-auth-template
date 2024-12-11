@@ -24,15 +24,29 @@ export async function signInWithEmail(
     return submission.reply();
   }
 
-  const signInResult = await signIn(
-    "magic-link",
-    { email: formData.get("email"), redirect: false },
-    {
-      callbackUrl: from,
-    }
-  );
+  let errorOccurred = false;
 
-  console.log("Email provider sign in result: ", signInResult);
+  try {
+    await signIn(
+      "magic-link",
+      {
+        email: formData.get("email"),
+        redirect: false,
+      },
+      {
+        callbackUrl: from,
+      }
+    );
+  } catch (error) {
+    errorOccurred = true;
+    return submission.reply({
+      formErrors: ["Something went wrong."],
+    });
+  } finally {
+    if (!errorOccurred) {
+      redirect("/signin/email-sent");
+    }
+  }
 }
 
 export async function signInWithEmailAndPassword(
