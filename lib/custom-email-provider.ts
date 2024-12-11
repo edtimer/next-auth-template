@@ -22,13 +22,7 @@ export function CustomEmailProvider(): EmailConfig {
 
     async sendVerificationRequest(params: SendVerificationRequestParams) {
       const { identifier: email, url } = params;
-      const result = await sendEmailSignInLink(email, url);
-
-      console.log("Email magic link sent status:", result);
-
-      if (!result.success) {
-        throw new Error("Failed to send verification email");
-      }
+      await sendEmailSignInLink(email, url);
     },
   };
 }
