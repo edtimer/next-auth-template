@@ -24,10 +24,11 @@ export async function signInWithEmail(
     return submission.reply();
   }
 
-  let errorOccured = false;
-
   try {
-  } catch (error) {}
+    await signIn("email", { redirectTo: from });
+  } catch (error) {
+    console.log("Email provider signin error: ", error);
+  }
 }
 
 export async function signInWithEmailAndPassword(
