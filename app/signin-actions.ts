@@ -24,13 +24,15 @@ export async function signInWithEmail(
     return submission.reply();
   }
 
-  await signIn(
+  const signInResult = await signIn(
     "magic-link",
-    { email: formData.get("email") },
+    { email: formData.get("email"), redirect: false },
     {
       callbackUrl: from,
     }
   );
+
+  console.log("Email provider sign in result: ", signInResult);
 }
 
 export async function signInWithEmailAndPassword(
