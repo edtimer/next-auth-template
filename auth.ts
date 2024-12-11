@@ -9,6 +9,7 @@ import { getUser } from "@/lib/get-user";
 import { saveUser } from "@/lib/save-user";
 import { sendCredentialEmailVerificationEmail } from "@/lib/send-credentials-email-verification-email";
 import { checkCredentialsEmailVerificationStatus } from "@/lib/check-credentials-email-verification-status";
+import { CustomEmailProvider } from "@/lib/custom-email-provider";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -16,6 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
+    CustomEmailProvider(),
     Credentials({
       authorize: async (credentials, req) => {
         const email = credentials?.email as string;

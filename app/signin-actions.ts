@@ -25,7 +25,12 @@ export async function signInWithEmail(
   }
 
   try {
-    await signIn("email", { redirectTo: from });
+    const result = await signIn(
+      "magic-link",
+      { email: formData.get("email") },
+      { redirectTo: from }
+    );
+    console.log("Email provider sign in result: ", result);
   } catch (error) {
     console.log("Email provider signin error: ", error);
   }
