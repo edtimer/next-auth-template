@@ -50,7 +50,7 @@ export function SignInEmailPasswordForm({ from }: { from: string }) {
             id="email"
             type="email"
             name={fields.email.name}
-            defaultValue={(lastResult?.initialValue?.email as string) ?? ""}
+            defaultValue={lastResult?.initialValue?.email as string}
             placeholder="you@example.com"
           />
           <div className="text-sm text-red-600">{fields.email.errors}</div>
@@ -72,9 +72,7 @@ export function SignInEmailPasswordForm({ from }: { from: string }) {
               id="password"
               type={isPasswordVisible ? "text" : "password"}
               name={fields.password.name}
-              defaultValue={
-                (lastResult?.initialValue?.password as string) ?? ""
-              }
+              defaultValue={lastResult?.initialValue?.password as string}
             />
             <button
               type="button"

@@ -124,6 +124,7 @@ export type Database = {
           image: string | null
           name: string | null
           password: string | null
+          role: string
         }
         Insert: {
           credentials_email_verified?: boolean | null
@@ -133,6 +134,7 @@ export type Database = {
           image?: string | null
           name?: string | null
           password?: string | null
+          role?: string
         }
         Update: {
           credentials_email_verified?: boolean | null
@@ -142,6 +144,7 @@ export type Database = {
           image?: string | null
           name?: string | null
           password?: string | null
+          role?: string
         }
         Relationships: []
       }

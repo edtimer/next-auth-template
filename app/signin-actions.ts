@@ -69,6 +69,8 @@ export async function signInWithEmailAndPassword(
     const result = await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
+      callbackUrl: from,
+      redirect: false,
     });
 
     console.log(
