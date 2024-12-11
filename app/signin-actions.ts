@@ -4,8 +4,31 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { CallbackRouteError } from "@auth/core/errors";
 import { parseWithZod } from "@conform-to/zod";
-import { signInSchema } from "@/app/schema";
+import {
+  signInWithEmailSchema,
+  signInWithEmailAndPasswordSchema,
+} from "@/app/schema";
 import { redirect } from "next/navigation";
+
+export async function signInWithEmail(
+  from: string,
+  prevState: unknown,
+  formData: FormData
+) {
+  // Validate the form data
+  const submission = parseWithZod(formData, {
+    schema: signInWithEmailSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  let errorOccured = false;
+
+  try {
+  } catch (error) {}
+}
 
 export async function signInWithEmailAndPassword(
   from: string,
@@ -14,7 +37,7 @@ export async function signInWithEmailAndPassword(
 ) {
   // Validate the form data
   const submission = parseWithZod(formData, {
-    schema: signInSchema,
+    schema: signInWithEmailAndPasswordSchema,
   });
 
   if (submission.status !== "success") {
