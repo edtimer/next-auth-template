@@ -8,17 +8,20 @@ export function EmailSignInTemplate({ url }: { url: string }) {
   return (
     <Html>
       <Tailwind>
-        <Text className="text-base font-medium text-gray-900">Hey,</Text>
-        <Text className="text-base font-medium text-gray-900">
+        <Text className="text-base text-gray-700">Hey,</Text>
+        <Text className="text-base text-gray-700">
           Click the link below to sign in to your account.
+        </Text>
+        <Text className="text-base text-gray-700 mt-4">
+          The link will expire in 1 hour.
         </Text>
         <Button
           href={url}
-          className="rounded bg-blue-600 px-4 py-2 text-base font-medium text-white"
+          className="rounded bg-blue-600 px-2 py-1 text-base font-medium text-white mt-4"
         >
           Sign in
         </Button>
-        <Text className="text-sm font-medium text-gray-500">
+        <Text className="text-sm text-gray-500 mt-4">
           If you did not try to log in to your account, you can safely ignore
           this email.
         </Text>
