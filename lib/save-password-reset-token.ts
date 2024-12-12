@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabase";
 type TokenResult = {
   success: boolean;
   message?: string;
-  error?: string;
 };
 
 export async function savePasswordResetToken(
@@ -12,57 +11,20 @@ export async function savePasswordResetToken(
   resetPasswordToken: string
 ): Promise<TokenResult> {
   try {
-    // First check if this user exists
-    const { data: user, error: userError } = await supabase
-      .schema("next_auth")
-      .from("users")
-      .select("*")
-      .eq("email", email)
-      .single();
-
-    // If user not found, return success to avoid email enumeration
-    if (userError) {
-      return {
-        success: true,
-        message: "User doesn't exist",
-      };
-    }
-
-    // Check for existing reset token
-    const { data: existingToken, error: tokenError } = await supabase
-      .schema("next_auth")
-      .from("reset_tokens")
-      .select("*")
-      .eq("identifier", email)
-      .single();
-
-    if (existingToken) {
-      // Check if existing token is still valid
-      const now = new Date();
-      const tokenExpiry = new Date(existingToken.expires!);
-
-      if (now < tokenExpiry) {
-        return {
-          success: true,
-          message: "Active reset token exists",
-        };
-      }
-    }
-
     // Delete expired token before creating new one
-    const { error: deleteError } = await supabase
+    const { error: deleteTokenError } = await supabase
       .schema("next_auth")
       .from("reset_tokens")
       .delete()
       .eq("identifier", email);
 
-    if (deleteError) {
-      console.error("Failed to delete expired token:", deleteError);
+    if (deleteTokenError) {
+      console.error("Failed to delete expired token:", deleteTokenError);
       throw new Error("Failed to clean up expired token");
     }
 
     // Create new token
-    const { error: insertError } = await supabase
+    const { error: createTokenError } = await supabase
       .schema("next_auth")
       .from("reset_tokens")
       .insert({
@@ -71,7 +33,7 @@ export async function savePasswordResetToken(
         expires: new Date(Date.now() + 60 * 1000).toISOString(),
       });
 
-    if (insertError) {
+    if (createTokenError) {
       throw new Error("Failed to save reset token");
     }
 
@@ -83,7 +45,7 @@ export async function savePasswordResetToken(
     console.error("Failed to process password reset request:", error);
     return {
       success: false,
-      error: "Failed to process request",
+      message: "Failed to process request",
     };
   }
 }
