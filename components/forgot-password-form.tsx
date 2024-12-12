@@ -35,10 +35,12 @@ export function ForgotPasswordForm() {
         noValidate
       >
         {form.errors && (
-          <div className="text-sm text-red-600 text-center">{form.errors}</div>
+          <div className="text-sm text-red-600 text-center bg-red-50 border border-red-200 py-2 rounded">
+            {form.errors}
+          </div>
         )}
 
-        <div>
+        <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"

@@ -42,22 +42,28 @@ export function ResetPasswordForm() {
           <div className="text-sm text-red-600 text-center">{form.errors}</div>
         )}
 
-        <div>
-          <Label htmlFor="password">New password</Label>
-          <Input
-            id="password"
-            type="password"
-            name={fields.password.name}
-            defaultValue={fields.password.initialValue}
-            className="mt-2"
-          />
-          {fields.password.errors && (
+        <div className="grid gap-2">
+          <Label htmlFor="newPassword">New password</Label>
+          <Input id="newPassword" type="password" name="newPassword" />
+          {fields.newPassword.errors && (
             <div className="text-sm text-red-600 mt-1">
-              {fields.password.errors}
+              {fields.newPassword.errors}
             </div>
           )}
         </div>
-
+        <div className="grid gap-2">
+          <Label htmlFor="newPassword">Confirm new password</Label>
+          <Input
+            id="confirmNewPassword"
+            type="password"
+            name="confirmNewPassword"
+          />
+          {fields.confirmNewPassword.errors && (
+            <div className="text-sm text-red-600 mt-1">
+              {fields.confirmNewPassword.errors}
+            </div>
+          )}
+        </div>
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? "Resetting..." : "Reset password"}
         </Button>

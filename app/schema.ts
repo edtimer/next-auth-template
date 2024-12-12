@@ -24,8 +24,17 @@ export const forgotPasswordSchema = z.object({
     .email("Invalid email"),
 });
 
-export const resetPasswordSchema = z.object({
-  password: z
-    .string({ required_error: "Password is required" })
-    .min(1, "Password is required"),
-});
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z
+      .string({ required_error: "Password is required" })
+      .min(1, "Password is required"),
+    confirmNewPassword: z
+      .string({ required_error: "Password is required" })
+      .min(1, "Password is required"),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords do not match.",
+    // This tells Zod which field to attach the error to
+    path: ["confirmNewPassword"],
+  });

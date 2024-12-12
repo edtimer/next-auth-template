@@ -1,6 +1,7 @@
 export class CheckUserExistsError extends Error {
   public static readonly errorMessages = {
     USER_NOT_FOUND: "User not found.",
+    INTERNAL_ERROR: "Something went wrong.",
   } as const;
 
   public readonly code: keyof typeof CheckUserExistsError.errorMessages;
