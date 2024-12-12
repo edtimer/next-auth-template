@@ -9,8 +9,8 @@ import { randomBytes } from "node:crypto";
 import { forgotPasswordSchema, resetPasswordSchema } from "@/app/schema";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
 import { updatePassword } from "@/lib/update-passsord";
-import { ResetPasswordTokenVerificationError } from "@/lib/token-verification-error";
-import { UpdatePasswordError } from "@/lib/update-password-error";
+import { VerifyPasswordResetTokenError } from "@/lib/verify-password-reset-token-error";
+import { ResetPasswordError } from "@/lib/reset-password-error";
 import { CheckUserExistsError } from "@/lib/check-user-exists-error";
 
 export async function requestPasswordReset(
@@ -73,7 +73,7 @@ export async function resetPassword(
 
   if (!token) {
     return submission.reply({
-      formErrors: ["Reset token not found."],
+      formErrors: ["Password reset token not found."],
     });
   }
 
@@ -81,37 +81,23 @@ export async function resetPassword(
 
   try {
     const { email } = await verifyPasswordResetToken(token);
-    await updatePassword(email!, submission.value.password);
+    await updatePassword(email, submission.value.newPassword);
   } catch (error) {
     errorOccured = true;
-    if (error instanceof ResetPasswordTokenVerificationError) {
-      switch (error.code) {
-        case "TOKEN_EXPIRED":
-          return submission.reply({
-            formErrors: ["Reset token has expired."],
-          });
-          break;
-        case "TOKEN_INVALID":
-          return submission.reply({
-            formErrors: ["Reset token is invalid."],
-          });
-          break;
-        case "SYSTEM_ERROR":
-          return submission.reply({
-            formErrors: ["Something went wrong."],
-          });
-          break;
-      }
+    if (error instanceof VerifyPasswordResetTokenError) {
+      return submission.reply({
+        formErrors: [VerifyPasswordResetTokenError.getErrorMessage(error.code)],
+      });
     }
-    if (error instanceof UpdatePasswordError) {
-      switch (error.code) {
-        case "PASSWORD_UPDATE_FAILED":
-          return submission.reply({
-            formErrors: ["Failed to update password."],
-          });
-          break;
-      }
+    if (error instanceof ResetPasswordError) {
+      return submission.reply({
+        formErrors: [ResetPasswordError.getErrorMessage(error.code)],
+      });
     }
+
+    return submission.reply({
+      formErrors: ["Something went wrong."],
+    });
   } finally {
     if (!errorOccured) {
       redirect("/reset-password/success");
