@@ -43,8 +43,8 @@ export function ForgotPasswordForm() {
           <Input
             id="email"
             type="email"
-            name={fields.email.name}
-            defaultValue={fields.email.initialValue}
+            name="email"
+            defaultValue={lastResult?.initialValue?.email as string}
             className="mt-2"
           />
           {fields.email.errors && (

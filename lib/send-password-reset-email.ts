@@ -8,7 +8,10 @@ export async function sendPasswordResetEmail(
   resetPasswordToken: string
 ) {
   // Create reset URL with the token
-  const resetUrl = new URL("/reset-password", process.env.NEXTAUTH_URL);
+  const resetUrl = new URL(
+    "/api/verify-password-reset-token",
+    process.env.NEXTAUTH_URL
+  );
   resetUrl.searchParams.set("token", resetPasswordToken);
 
   try {
@@ -44,13 +47,10 @@ export async function sendPasswordResetEmail(
       success: true,
     };
   } catch (error) {
-    console.error(
-      "sendPasswordResetEmail: Failed to send password reset email:",
-      error
-    );
+    console.error("Failed to send password reset email:", error);
     return {
       success: false,
-      error: "Failed to send password reset email",
+      message: "Failed to send password reset email",
     };
   }
 }
