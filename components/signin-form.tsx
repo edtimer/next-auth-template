@@ -24,11 +24,11 @@ export function SigninForm() {
   );
 
   return (
-    <div className="px-6 py-16 lg:px-8">
+    <div className="py-16 sm:mx-auto sm:max-w-sm">
       <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
         Sign in to your account
       </h2>
-      <div className="grid gap-4 mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="grid gap-4 mt-10">
         <form action={googleAction}>
           <Button
             type="submit"

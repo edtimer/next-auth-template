@@ -23,7 +23,7 @@ export function ForgotPasswordForm() {
   });
 
   return (
-    <div className="px-6 py-16 lg:px-8 mx-auto max-w-sm">
+    <div className="py-16 mx-auto sm:mx-auto sm:max-w-sm">
       <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
         Forgot password?
       </h2>
@@ -47,7 +47,6 @@ export function ForgotPasswordForm() {
             type="email"
             name="email"
             defaultValue={lastResult?.initialValue?.email as string}
-            className="mt-2"
           />
           {fields.email.errors && (
             <div className="text-sm text-red-600 mt-1">
