@@ -2,8 +2,9 @@
 
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
+import { checkUserExists } from "@/lib/check-user-exists";
 import { sendPasswordResetEmail } from "@/lib/send-password-reset-email";
-import { savePasswordResetToken } from "@/lib/save-password-reset-token";
+import { createPasswordResetToken } from "@/lib/create-password-reset-token";
 import { randomBytes } from "node:crypto";
 import { forgotPasswordSchema, resetPasswordSchema } from "@/app/schema";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
@@ -27,55 +28,16 @@ export async function requestPasswordReset(
   const email = submission.value.email;
   const resetPasswordToken = randomBytes(32).toString("hex");
 
-  // Save the token and get result
-  let tokenResult;
   try {
-    tokenResult = await savePasswordResetToken(email, resetPasswordToken);
-  } catch (error) {
-    console.error("Password reset request failed:", error);
-    return submission.reply({
-      formErrors: ["Something went wrong. Please try again."],
-    });
-  }
+    // Check if user exists
+    await checkUserExists(email);
 
-  // Handle unsuccessful token save
-  if (!tokenResult.success) {
-    return submission.reply({
-      formErrors: ["Something went wrong. Please try again."],
-    });
-  }
+    // Create reset token
+    await createPasswordResetToken(email, resetPasswordToken);
 
-  // If user doesn't exist or has active token, redirect to email sent page
-  if (
-    tokenResult.message === "User doesn't exist" ||
-    tokenResult.message === "Active reset token exists"
-  ) {
-    redirect("/forgot-password/email-sent");
-  }
-
-  // If we have a new token, try to send the email
-  if (tokenResult.message === "Reset token saved successfully") {
-    try {
-      const emailResult = await sendPasswordResetEmail(
-        email,
-        resetPasswordToken
-      );
-
-      if (!emailResult.success) {
-        return submission.reply({
-          formErrors: ["Failed to send reset email. Please try again."],
-        });
-      }
-    } catch (error) {
-      console.error("Failed to send password reset email:", error);
-      return submission.reply({
-        formErrors: ["Failed to send reset email. Please try again."],
-      });
-    }
-  }
-
-  // If we get here successfully, redirect to email sent page
-  redirect("/forgot-password/email-sent");
+    // Send email
+    await sendPasswordResetEmail(email, resetPasswordToken);
+  } catch (error) {}
 }
 
 // Reset user password

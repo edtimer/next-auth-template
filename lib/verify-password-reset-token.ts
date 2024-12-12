@@ -31,9 +31,5 @@ export async function verifyPasswordResetToken(token: string) {
     if (error instanceof ResetPasswordTokenVerificationError) {
       throw error;
     }
-
-    // For unexpected errors (network issues, etc.), log and throw a generic error
-    console.error("Unexpected error during token verification:", error);
-    throw new ResetPasswordTokenVerificationError("SYSTEM_ERROR");
   }
 }

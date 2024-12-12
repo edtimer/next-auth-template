@@ -11,7 +11,7 @@ export async function savePasswordResetToken(
   resetPasswordToken: string
 ): Promise<TokenResult> {
   try {
-    // Delete expired token before creating new one
+    // Delete existing token
     const { error: deleteTokenError } = await supabase
       .schema("next_auth")
       .from("reset_tokens")
