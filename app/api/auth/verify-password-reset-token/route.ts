@@ -9,7 +9,7 @@ export type TokenVerificationStatus =
 
 function getRedirectUrl(status: TokenVerificationStatus) {
   if (status === "token-valid") {
-    return "/reset-password";
+    return `/reset-password"?token={token}`;
   }
 
   return `/reset-password/verify?error=${status}`;
