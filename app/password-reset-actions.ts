@@ -37,7 +37,9 @@ export async function requestPasswordReset(
 
     // Send email
     await sendPasswordResetEmail(email, resetPasswordToken);
-  } catch (error) {}
+  } catch (error) {
+    console.log("Request password reset error: ", error);
+  }
 }
 
 // Reset user password

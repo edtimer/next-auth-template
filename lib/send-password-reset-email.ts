@@ -2,6 +2,7 @@ import { render } from "@react-email/render";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { sesClient } from "@/lib/aws";
 import { PasswordResetTemplate } from "@/components/password-reset-email-template";
+import { SendPasswordResetEmailError } from "@/lib/send-password-reset-email-error";
 
 export async function sendPasswordResetEmail(
   email: string,
@@ -41,16 +42,14 @@ export async function sendPasswordResetEmail(
       Source: process.env.AWS_SES_FROM_EMAIL,
     });
 
-    await sesClient.send(sendEmailCommand);
+    const result = await sesClient.send(sendEmailCommand);
 
-    return {
-      success: true,
-    };
+    if (!result.MessageId) {
+      throw new SendPasswordResetEmailError("EMAIL_SEND_FAILED");
+    }
   } catch (error) {
-    console.error("Failed to send password reset email:", error);
-    return {
-      success: false,
-      message: "Failed to send password reset email",
-    };
+    if (error instanceof SendPasswordResetEmailError) {
+      throw error;
+    }
   }
 }

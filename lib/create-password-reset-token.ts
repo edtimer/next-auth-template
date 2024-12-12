@@ -1,15 +1,11 @@
 import "server-only";
 import { supabase } from "@/lib/supabase";
+import { CreatePasswordResetTokenError } from "@/lib/create-password-reset-token-error";
 
-type TokenResult = {
-  success: boolean;
-  message?: string;
-};
-
-export async function savePasswordResetToken(
+export async function createPasswordResetToken(
   email: string,
   resetPasswordToken: string
-): Promise<TokenResult> {
+) {
   try {
     // Delete existing token
     const { error: deleteTokenError } = await supabase
@@ -19,8 +15,8 @@ export async function savePasswordResetToken(
       .eq("identifier", email);
 
     if (deleteTokenError) {
-      console.error("Failed to delete expired token:", deleteTokenError);
-      throw new Error("Failed to clean up expired token");
+      console.error("Failed to delete password reset token:", deleteTokenError);
+      throw new CreatePasswordResetTokenError("TOKEN_DELETION_FAILED");
     }
 
     // Create new token
@@ -34,18 +30,12 @@ export async function savePasswordResetToken(
       });
 
     if (createTokenError) {
-      throw new Error("Failed to save reset token");
+      console.error("Failed to create password reset token:", deleteTokenError);
+      throw new CreatePasswordResetTokenError("TOKEN_DELETION_FAILED");
     }
-
-    return {
-      success: true,
-      message: "Reset token saved successfully",
-    };
   } catch (error) {
-    console.error("Failed to process password reset request:", error);
-    return {
-      success: false,
-      message: "Failed to process request",
-    };
+    if (error instanceof CreatePasswordResetTokenError) {
+      throw error;
+    }
   }
 }

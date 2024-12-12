@@ -10,7 +10,7 @@ export class CheckUserExistsError extends Error {
     super(message);
 
     this.code = code;
-    this.name = "ResetPasswordTokenVerificationError";
+    this.name = "CheckUserExistsError";
   }
 
   public static getErrorMessage(
