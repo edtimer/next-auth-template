@@ -11,6 +11,7 @@ import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
 import { updatePassword } from "@/lib/update-passsord";
 import { ResetPasswordTokenVerificationError } from "@/lib/token-verification-error";
 import { UpdatePasswordError } from "@/lib/update-password-error";
+import { CheckUserExistsError } from "@/lib/check-user-exists-error";
 
 export async function requestPasswordReset(
   prevState: unknown,
@@ -28,6 +29,8 @@ export async function requestPasswordReset(
   const email = submission.value.email;
   const resetPasswordToken = randomBytes(32).toString("hex");
 
+  let errorOccured = false;
+
   try {
     // Check if user exists
     await checkUserExists(email);
@@ -38,7 +41,19 @@ export async function requestPasswordReset(
     // Send email
     await sendPasswordResetEmail(email, resetPasswordToken);
   } catch (error) {
-    console.log("Request password reset error: ", error);
+    errorOccured = true;
+    if (error instanceof CheckUserExistsError) {
+      return submission.reply({
+        formErrors: [CheckUserExistsError.getErrorMessage(error.code)],
+      });
+    }
+    return submission.reply({
+      formErrors: ["Something went wrong."],
+    });
+  } finally {
+    if (!errorOccured) {
+      redirect("/forgot-password/email-sent");
+    }
   }
 }
 
