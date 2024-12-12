@@ -1,19 +1,21 @@
 import { Icons } from "@/components/icons";
 import Link from "next/link";
 
-// Define verification status type
 type TokenVerificationStatus =
   | "token-invalid"
   | "token-expired"
   | "internal-error";
 
-// Define the structure for error content
 type ErrorContent = {
   title: string;
   message: string;
 };
 
-// Map each status to its corresponding title and message
+const defaultErrorContent: ErrorContent = {
+  title: "Something Went Wrong",
+  message: "Please try again.",
+};
+
 const statusContent: Record<TokenVerificationStatus, ErrorContent> = {
   "token-invalid": {
     title: "Token is Invalid",
@@ -29,9 +31,14 @@ const statusContent: Record<TokenVerificationStatus, ErrorContent> = {
   },
 };
 
-// Create reusable error message component
-function ErrorMessage({ error }: { error: TokenVerificationStatus }) {
-  const content = statusContent[error];
+function isValidErrorType(error: string): error is TokenVerificationStatus {
+  return error in statusContent;
+}
+
+function ErrorMessage({ error }: { error: string }) {
+  const content = isValidErrorType(error)
+    ? statusContent[error]
+    : defaultErrorContent;
 
   return (
     <div className="mx-auto max-w-sm mt-12 px-4 lg:px-8 text-center">
@@ -42,18 +49,18 @@ function ErrorMessage({ error }: { error: TokenVerificationStatus }) {
         className="flex justify-center items-center group p-2"
       >
         <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-primary" />
-        Request new reset link
+        Forgot Password
       </Link>
     </div>
   );
 }
 
-export default function VerifyResetPasswordPage({
+export default async function VerifyResetPasswordPage({
   searchParams,
 }: {
-  searchParams: { error?: TokenVerificationStatus };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const errorType = searchParams.error || "internal-error";
+  const errorType = (await searchParams).error || "internal-error";
 
   return <ErrorMessage error={errorType} />;
 }

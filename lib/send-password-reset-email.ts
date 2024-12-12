@@ -9,7 +9,7 @@ export async function sendPasswordResetEmail(
 ) {
   // Create reset URL with the token
   const resetUrl = new URL(
-    "/api/verify-password-reset-token",
+    "/api/auth/verify-password-reset-token",
     process.env.NEXTAUTH_URL
   );
   resetUrl.searchParams.set("token", resetPasswordToken);
