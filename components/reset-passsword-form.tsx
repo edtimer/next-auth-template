@@ -39,7 +39,9 @@ export function ResetPasswordForm() {
         noValidate
       >
         {form.errors && (
-          <div className="text-sm text-red-600 text-center">{form.errors}</div>
+          <div className="text-sm text-red-600 text-center bg-red-50 p-2 rounded border border-red-200">
+            {form.errors}
+          </div>
         )}
 
         <div className="grid gap-2">

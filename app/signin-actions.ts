@@ -66,17 +66,12 @@ export async function signInWithEmailAndPassword(
   let errorOccured = false;
 
   try {
-    const result = await signIn("credentials", {
+    await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
       callbackUrl: from,
       redirect: false,
     });
-
-    console.log(
-      "Credentials sign in result (checking if I am getting back the return value from the authorize callback: ",
-      result
-    );
   } catch (error) {
     if (
       error instanceof CallbackRouteError &&

@@ -1,8 +1,8 @@
 import "server-only";
 import { supabase } from "@/lib/supabase";
-import { VerifyEmailTokenVerificationError } from "@/lib/token-verification-error";
+import { VerifyCredentialEmailError } from "@/lib/verify-credential-email-error";
 
-export async function verifyCredentialsEmail(token: string) {
+export async function verifyCredentialEmail(token: string) {
   try {
     // Fetch the verification token record
     const { data: tokenData, error: tokenError } = await supabase
@@ -14,12 +14,12 @@ export async function verifyCredentialsEmail(token: string) {
 
     if (tokenError) {
       console.error("Error fetching verification token:", tokenError);
-      throw new VerifyEmailTokenVerificationError("TOKEN_INVALID");
+      throw new VerifyCredentialEmailError("TOKEN_INVALID");
     }
 
     // Check the token expiration
     if (new Date(tokenData.expires) < new Date()) {
-      throw new VerifyEmailTokenVerificationError("TOKEN_EXPIRED");
+      throw new VerifyCredentialEmailError("TOKEN_EXPIRED");
     }
 
     // Update the user's verification status
@@ -32,7 +32,7 @@ export async function verifyCredentialsEmail(token: string) {
       .single();
 
     if (updateError) {
-      throw new VerifyEmailTokenVerificationError("SYSTEM_ERROR");
+      throw new VerifyCredentialEmailError("INTERNAL_ERROR");
     }
 
     // If verification succeeded, clean up the used token
@@ -43,22 +43,15 @@ export async function verifyCredentialsEmail(token: string) {
       .eq("token", token);
 
     if (deleteError) {
-      // Log but don't throw - token cleanup isn't critical to verification success
-      console.error(
-        "Warning: Could not delete used verification token:",
-        deleteError
-      );
+      throw new VerifyCredentialEmailError("INTERNAL_ERROR");
     }
 
     return userData;
   } catch (error) {
-    // If it's our known error type, rethrow it
-    if (error instanceof VerifyEmailTokenVerificationError) {
+    if (error instanceof VerifyCredentialEmailError) {
       throw error;
     }
 
-    // For unexpected errors (network issues, etc.), log and throw a generic error
-    console.error("Unexpected error during token verification:", error);
-    throw new VerifyEmailTokenVerificationError("SYSTEM_ERROR");
+    throw new VerifyCredentialEmailError("INTERNAL_ERROR");
   }
 }
