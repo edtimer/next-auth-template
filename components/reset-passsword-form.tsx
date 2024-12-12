@@ -7,7 +7,7 @@ import { useForm } from "@conform-to/react";
 import { useSearchParams } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
 import { useActionState } from "react";
-import { resetPassword } from "@/app/password-reset-actions";
+import { resetUserPassword } from "@/app/password-reset-actions";
 import { resetPasswordSchema } from "@/app/schema";
 
 export function ResetPasswordForm() {
@@ -15,7 +15,7 @@ export function ResetPasswordForm() {
   const token = searchParams.get("token");
 
   // Bind the token to the action
-  const boundResetPassword = resetPassword.bind(null, token!);
+  const boundResetPassword = resetUserPassword.bind(null, token!);
   const [lastResult, action, isPending] = useActionState(
     boundResetPassword,
     undefined

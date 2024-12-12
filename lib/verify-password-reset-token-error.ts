@@ -3,6 +3,7 @@ export class VerifyPasswordResetTokenError extends Error {
     TOKEN_NOT_FOUND: "Reset token not found.",
     TOKEN_EXPIRED: "Reset token has expired.",
     TOKEN_INVALID: "Reset token is invalid.",
+    INTERNAL_ERROR: "Something went wrong.",
   } as const;
 
   public readonly code: keyof typeof VerifyPasswordResetTokenError.errorMessages;

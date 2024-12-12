@@ -8,7 +8,7 @@ import { createPasswordResetToken } from "@/lib/create-password-reset-token";
 import { randomBytes } from "node:crypto";
 import { forgotPasswordSchema, resetPasswordSchema } from "@/app/schema";
 import { verifyPasswordResetToken } from "@/lib/verify-password-reset-token";
-import { updatePassword } from "@/lib/update-passsord";
+import { resetPassword } from "@/lib/reset-passsord";
 import { VerifyPasswordResetTokenError } from "@/lib/verify-password-reset-token-error";
 import { ResetPasswordError } from "@/lib/reset-password-error";
 import { CheckUserExistsError } from "@/lib/check-user-exists-error";
@@ -58,7 +58,7 @@ export async function requestPasswordReset(
 }
 
 // Reset user password
-export async function resetPassword(
+export async function resetUserPassword(
   token: string,
   prevState: unknown,
   formData: FormData
@@ -81,7 +81,7 @@ export async function resetPassword(
 
   try {
     const { email } = await verifyPasswordResetToken(token);
-    await updatePassword(email, submission.value.newPassword);
+    await resetPassword(email, submission.value.newPassword);
   } catch (error) {
     errorOccured = true;
     if (error instanceof VerifyPasswordResetTokenError) {

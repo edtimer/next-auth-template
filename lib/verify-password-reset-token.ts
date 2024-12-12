@@ -1,8 +1,15 @@
 import "server-only";
 import { supabase } from "@/lib/supabase";
-import { ResetPasswordTokenVerificationError } from "@/lib/token-verification-error";
+import { VerifyPasswordResetTokenError } from "@/lib/verify-password-reset-token-error";
 
-export async function verifyPasswordResetToken(token: string) {
+type TokenVerificationResult = {
+  success: true;
+  email: string;
+};
+
+export async function verifyPasswordResetToken(
+  token: string
+): Promise<TokenVerificationResult> {
   try {
     // Fetch the reset token record
     const { data: tokenData, error: tokenError } = await supabase
@@ -14,22 +21,23 @@ export async function verifyPasswordResetToken(token: string) {
 
     if (tokenError) {
       console.error("Error fetching reset token:", tokenError);
-      throw new ResetPasswordTokenVerificationError("TOKEN_INVALID");
+      throw new VerifyPasswordResetTokenError("TOKEN_INVALID");
     }
 
     // Check token expiration
     if (new Date(tokenData.expires) < new Date()) {
-      throw new ResetPasswordTokenVerificationError("TOKEN_EXPIRED");
+      throw new VerifyPasswordResetTokenError("TOKEN_EXPIRED");
     }
 
     return {
       success: true,
-      email: tokenData.identifier,
+      email: tokenData.identifier!,
     };
   } catch (error) {
     // If it's our known error type, rethrow it
-    if (error instanceof ResetPasswordTokenVerificationError) {
+    if (error instanceof VerifyPasswordResetTokenError) {
       throw error;
     }
+    throw new VerifyPasswordResetTokenError("INTERNAL_ERROR");
   }
 }
