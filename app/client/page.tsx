@@ -9,5 +9,10 @@ export default function ClientPage() {
     return <p>User not authenticated</p>;
   }
 
-  return <p>{session.user?.email}</p>;
+  return (
+    <>
+      <p className="text-center">{session.user?.email}</p>
+      <p className="text-center mt-3">{session.user?.role}</p>
+    </>
+  );
 }

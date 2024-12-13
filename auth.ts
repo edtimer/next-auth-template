@@ -4,17 +4,22 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { CustomEmailProvider } from "@/lib/custom-email-provider";
-import { supabase } from "@/lib/supabase";
 import { authorizeCredentials } from "@/lib/authorize-credentials";
 import { handleAuthRedirect } from "@/lib/handle-auth-redirect";
 import { handleUserCreation } from "@/lib/handle-user-creation";
+import { handleAuthJwt } from "@/lib/handle-auth-jwt";
+import { handleAuthSession } from "@/lib/handle-auth-session";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   debug: true,
   session: { strategy: "jwt" },
   events: { createUser: handleUserCreation },
-  callbacks: { redirect: handleAuthRedirect },
+  callbacks: {
+    redirect: handleAuthRedirect,
+    jwt: handleAuthJwt,
+    session: handleAuthSession,
+  },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
     CustomEmailProvider(),
