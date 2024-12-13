@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -49,7 +49,14 @@ export function SignInEmailForm({ from }: { from: string }) {
         <div className="text-sm text-red-600">{fields.email.errors}</div>
       </div>
       <Button disabled={isPending}>
-        {isPending ? "Sending link..." : "Send sign in link"}
+        {isPending ? (
+          <>
+            <Icons.loader className="size-3 animate-spin" />
+            Sending link...
+          </>
+        ) : (
+          "Send sign in link"
+        )}
       </Button>
     </form>
   );

@@ -16,9 +16,9 @@ export function EmailSignInTemplate({ url }: { url: string }) {
           href={url}
           className="rounded bg-blue-600 px-4 py-2 text-base font-medium text-white"
         >
-          Sign In 
+          Sign In
         </Button>
-        <Text className="text-base fontt-medium text-gray-900">
+        <Text className="text-base font-medium text-gray-900">
           Note that the link will expire in 1 hour.
         </Text>
         <Text className="text-sm font-medium text-gray-500">

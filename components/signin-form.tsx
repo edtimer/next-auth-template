@@ -35,7 +35,13 @@ export function SigninForm() {
             className="w-full shadow-sm border-gray-300 text-gray-900"
             variant="outline"
           >
-            <Icons.google className="mr-2 size-6" />
+            {isGooglePending ? (
+              <>
+                <Icons.loader className="size-3 animate-spin" />
+              </>
+            ) : (
+              <Icons.google className="mr-2 size-6" />
+            )}
             Sign in with Google
           </Button>
         </form>

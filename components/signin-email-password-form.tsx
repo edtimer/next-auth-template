@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import Link from "next/link";
 import { useState } from "react";
 import { useActionState } from "react";
 import { signInWithEmailAndPassword } from "@/app/signin-actions";
@@ -93,7 +93,14 @@ export function SignInEmailPasswordForm({ from }: { from: string }) {
           <div className="text-sm text-red-500">{fields.password.errors}</div>
         </div>
         <Button disabled={isPending}>
-          {isPending ? "Signing in..." : "Sign in"}
+          {isPending ? (
+            <>
+              <Icons.loader className="size-3 animate-spin" />
+              Signing in...
+            </>
+          ) : (
+            "Sign in"
+          )}
         </Button>
       </div>
     </form>

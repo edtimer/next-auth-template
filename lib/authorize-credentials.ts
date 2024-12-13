@@ -4,7 +4,7 @@ import { getUser } from "@/lib/get-user";
 import { createUser } from "@/lib/create-user";
 import { sendCredentialEmailVerificationEmail } from "@/lib/send-credentials-email-verification-email";
 import { checkCredentialsEmailVerificationStatus } from "@/lib/check-credentials-email-verification-status";
-
+import { AuthorizeCredentialsError } from "@/lib/authorize-credentials-error";
 import { User } from "next-auth";
 
 export async function authorizeCredentials(
@@ -26,7 +26,7 @@ export async function authorizeCredentials(
     ]);
 
     if (userCreationStatus.success && emailSendingStatus.success) {
-      throw new Error("Verification email sent");
+      throw new AuthorizeCredentialsError("EMAIL_SENT");
     }
   }
 
@@ -34,7 +34,7 @@ export async function authorizeCredentials(
   const passwordsMatch = await bcrypt.compare(password, user!.password!);
 
   if (!passwordsMatch) {
-    throw new Error("Invalid email or password");
+    throw new AuthorizeCredentialsError("INVALID_CREDENTIALS");
   }
 
   // Check email verification
@@ -43,7 +43,7 @@ export async function authorizeCredentials(
 
   if (!verificationStatus.verified) {
     await sendCredentialEmailVerificationEmail(email, verificationToken);
-    throw new Error("Verification email sent");
+    throw new AuthorizeCredentialsError("EMAIL_SENT");
   }
 
   return {
