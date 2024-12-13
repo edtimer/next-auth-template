@@ -41,7 +41,7 @@ export default async function VerifyEmailPage({
 
   try {
     await verifyCredentialEmail(token);
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof VerifyCredentialEmailError) {
       switch (error.code) {
         case "TOKEN_EXPIRED":

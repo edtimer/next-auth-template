@@ -23,8 +23,8 @@ export function PasswordResetTemplate({ resetUrl }: { resetUrl: string }) {
           Note that the link will epire in 1 hour.
         </Text>
         <Text className="text-sm font-medium text-gray-500">
-          If you didn't request a password reset, you can safely ignore this
-          email. This link will expire in 24 hours.
+          If you didn&apos;t request a password reset, you can safely ignore
+          this email. This link will expire in 24 hours.
         </Text>
       </Tailwind>
     </Html>

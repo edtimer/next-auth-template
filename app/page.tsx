@@ -9,9 +9,9 @@ export default async function Home() {
       <p className="mt-12 text-gray-700">
         Implementing authentication and authorization in a Next.js app using
         Auth.js is no easy task. You might spend weeks and even then there is no
-        guarantee of success. You're most likely to get stuck trying to figure
-        out an obscure error, but never really manage to fix it, leaving all the
-        hard work in vain.
+        guarantee of success. You&apos;re most likely to get stuck trying to
+        figure out an obscure error, but never really manage to fix it, leaving
+        all the hard work in vain.
       </p>
       <p className="mt-6 text-gray-700">
         Like many developers, I spent weeks, but managed to solve all

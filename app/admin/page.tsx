@@ -4,7 +4,7 @@ import { getUserRole } from "@/lib/get-user-role";
 export default async function AdminPage() {
   const session = await auth();
 
-  const { role } = await getUserRole(session?.user!);
+  const { role } = await getUserRole(session!.user);
 
   if (role === "user") {
     return (
