@@ -40,8 +40,11 @@ export async function sendSubscribeEmail(email: string) {
     if (!result.MessageId) {
       throw new Error("Failed to send subscribe email.");
     }
-  } catch (error: any) {
-    if (error.message === "Failed to send subscribe email.") {
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "Failed to send subscribe email."
+    ) {
       throw error;
     }
   }
