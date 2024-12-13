@@ -1,5 +1,6 @@
 import { JWT } from "next-auth/jwt";
 import { User } from "next-auth";
+import { getUserRole } from "@/lib/get-user-role";
 
 export async function handleAuthJwt({
   token,
@@ -8,9 +9,12 @@ export async function handleAuthJwt({
   token: JWT;
   user: User | undefined;
 }) {
-  // When the user signs in, the user object will be available
   if (user) {
-    token.role = user.role;
+    const response = await getUserRole(user);
+    if (response.success) {
+      token.role = response.role!;
+    }
   }
+
   return token;
 }

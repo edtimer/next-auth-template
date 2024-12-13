@@ -10,9 +10,9 @@ export default function ClientPage() {
   }
 
   return (
-    <>
+    <div className="mt-12">
       <p className="text-center">{session.user?.email}</p>
       <p className="text-center mt-3">{session.user?.role}</p>
-    </>
+    </div>
   );
 }

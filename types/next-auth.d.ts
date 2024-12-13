@@ -5,7 +5,7 @@ import { DefaultJWT } from "next-auth/jwt";
 // First, we extend the User interface
 declare module "next-auth" {
   interface User extends DefaultUser {
-    role: string;
+    role?: string;
   }
 
   // Then, we extend the Session interface

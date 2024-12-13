@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { render } from "@react-email/render";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { sesClient } from "@/lib/aws";
@@ -43,16 +42,14 @@ export async function sendCredentialEmailVerificationEmail(
     await sesClient.send(sendEmailCommand);
 
     return {
-      verificationToken,
       success: true,
     };
   } catch (error) {
-    // Log the full error for debugging but don't expose it to the caller
     console.error("Failed to send verification email:", error);
 
     return {
       success: false,
-      error: "Failed to send verification email",
+      message: "Failed to send verification email",
     };
   }
 }
