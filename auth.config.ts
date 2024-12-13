@@ -7,7 +7,7 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const authRoutes = ["/signin"];
-      const protectedRoutes = ["/private"];
+      const protectedRoutes = ["/private", "/admin"];
 
       const isAuthenticated = !!auth?.user;
       const path = nextUrl.pathname;

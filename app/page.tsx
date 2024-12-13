@@ -6,7 +6,7 @@ export default async function Home() {
 
   return (
     <>
-      <h1 className="text-2xl text-center mt-10">Hello World!</h1>
+      <h1 className="text-2xl text-center mt-12 font-bold">Hello World!</h1>
     </>
   );
 }

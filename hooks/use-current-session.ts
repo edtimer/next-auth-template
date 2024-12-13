@@ -17,6 +17,7 @@ export function useCurrentSession() {
           setStatus("authenticated");
           return;
         }
+        setStatus("unauthenticated");
       } catch (error) {
         setSession(null);
         setStatus("unauthenticated");
