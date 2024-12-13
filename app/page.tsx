@@ -20,7 +20,7 @@ export default async function Home() {
         authentication and authorization in just a few hours.
       </p>
       <p className="mt-6 text-gray-700">
-        In the course, you'll learn how to implement:
+        In the course, you&apos;ll learn how to implement:
       </p>
       <ul className="mt-6 space-y-1 text-gray-700 ml-8 list-disc">
         <li>Sign in with Google</li>
