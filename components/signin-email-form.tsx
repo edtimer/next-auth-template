@@ -35,7 +35,9 @@ export function SignInEmailForm({ from }: { from: string }) {
       noValidate
     >
       {form.errors && (
-        <div className="text-center text-sm text-red-600">{form.errors}</div>
+        <div className="text-center text-sm text-red-600 bg-red-50 border border-red-200 rounded ">
+          {form.errors}
+        </div>
       )}
       <div className="grid gap-2">
         <Label htmlFor="email" className="text-gray-700">
