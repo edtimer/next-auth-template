@@ -1,15 +1,15 @@
-import { verifyCredentialsEmail } from "@/lib/verify-credentials-email";
+import { verifyCredentialEmail } from "@/lib/verify-credential-email";
 
 import Link from "next/link";
 import { Icons } from "@/components/icons";
-import { VerifyEmailTokenVerificationError } from "@/lib/token-verification-error";
+import { VerifyCredentialEmailError } from "@/lib/verify-credential-email-error";
 
 export function ErrorMessage({
   code,
 }: {
-  code: keyof typeof VerifyEmailTokenVerificationError.errorMessages;
+  code: keyof typeof VerifyCredentialEmailError.errorMessages;
 }) {
-  const message = VerifyEmailTokenVerificationError.getErrorMessage(code);
+  const message = VerifyCredentialEmailError.getErrorMessage(code);
   return (
     <div className="mx-auto max-w-sm mt-12 px-4 lg:px-8 text-center">
       <h2 className="text-red-600 text-2xl font-bold">
@@ -40,9 +40,9 @@ export default async function VerifyEmailPage({
   }
 
   try {
-    await verifyCredentialsEmail(token);
-  } catch (error) {
-    if (error instanceof VerifyEmailTokenVerificationError) {
+    await verifyCredentialEmail(token);
+  } catch (error: any) {
+    if (error instanceof VerifyCredentialEmailError) {
       switch (error.code) {
         case "TOKEN_EXPIRED":
           return <ErrorMessage code="TOKEN_EXPIRED" />;
@@ -50,8 +50,8 @@ export default async function VerifyEmailPage({
         case "TOKEN_INVALID":
           return <ErrorMessage code="TOKEN_INVALID" />;
           break;
-        case "SYSTEM_ERROR":
-          return <ErrorMessage code="SYSTEM_ERROR" />;
+        case "INTERNAL_ERROR":
+          return <ErrorMessage code="INTERNAL_ERROR" />;
           break;
       }
     }

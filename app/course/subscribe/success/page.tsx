@@ -7,7 +7,7 @@ export default function SubscriptionSuccessPage() {
       <h2 className="text-green-600 text-2xl font-bold">Subscribed</h2>
       <p className="text-gray-700 mt-4">You're all set!</p>
       <p className="text-gray-700 mt-2 text-pretty">
-        I'll send you an email when the course is launched.
+        I&apos;ll send you an email when the course is launched.
       </p>
       <Link
         href="/"
