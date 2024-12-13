@@ -16,7 +16,7 @@ export default async function AdminPage() {
           User Role: {session?.user.role}
         </p>
         <p className="mt-4 text-gray-700">
-          (This page is only accessible to user with "admin" status.)
+          (This page is only accessible to user with &quot;admin&quot; status.)
         </p>
       </div>
     );
@@ -31,7 +31,7 @@ export default async function AdminPage() {
         User role: {session?.user.role}
       </p>
       <p className="mt-4 text-gray-500 text-center text-pretty">
-        This page is only accessible to user with "admin" status.
+        This page is only accessible to user with &quot;admin&quot; status.
       </p>
     </div>
   );

@@ -15,9 +15,9 @@ export default async function Home() {
       </p>
       <p className="mt-6 text-gray-700">
         Like many developers, I spent weeks, but managed to solve all
-        authetication challenges after much trial and error. Now I'm building a
-        course to share these hard-earned lessons, so you can implement
-        authentication and authorization in just a few hours.
+        authetication challenges after much trial and error. Now I&apos;m
+        building a course to share these hard-earned lessons, so you can
+        implement authentication and authorization in just a few hours.
       </p>
       <p className="mt-6 text-gray-700">
         In the course, you&apos;ll learn how to implement:
