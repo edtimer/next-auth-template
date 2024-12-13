@@ -47,7 +47,9 @@ export function SignInEmailPasswordForm({ from }: { from: string }) {
           </div>
         )}
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email" className="text-gray-700">
+            Email
+          </Label>
           <Input
             id="email"
             type="email"
@@ -59,7 +61,9 @@ export function SignInEmailPasswordForm({ from }: { from: string }) {
         </div>
         <div className="grid gap-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-gray-700">
+              Password
+            </Label>
             <div className="text-sm">
               <Link
                 href="/forgot-password"

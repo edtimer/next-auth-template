@@ -30,20 +30,19 @@ export function SigninForm() {
       </h2>
       <div className="grid gap-4 mt-10">
         <form action={googleAction}>
-          <Button
+          <button
             type="submit"
-            className="w-full shadow-sm border-gray-300 text-gray-900"
-            variant="outline"
+            className="w-full py-2 text-sm font-medium rounded-md shadow-sm border border-gray-300 text-gray-700 hover:bg-gray-100"
           >
             {isGooglePending ? (
               <>
-                <Icons.loader className="size-3 animate-spin" />
+                <Icons.loader className="mr-2 inline-block size-4 animate-spin" />
               </>
             ) : (
-              <Icons.google className="mr-2 size-6" />
+              <Icons.google className="inline-block mr-2 size-5" />
             )}
             Sign in with Google
-          </Button>
+          </button>
         </form>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

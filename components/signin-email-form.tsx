@@ -38,7 +38,9 @@ export function SignInEmailForm({ from }: { from: string }) {
         <div className="text-center text-sm text-red-600">{form.errors}</div>
       )}
       <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email" className="text-gray-700">
+          Email
+        </Label>
         <Input
           id="email"
           type="email"
