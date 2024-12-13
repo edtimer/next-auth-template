@@ -7,7 +7,7 @@ import { VerifyCredentialEmailError } from "@/lib/verify-credential-email-error"
 export default async function VerifyEmailPage({
   searchParams,
 }: {
-  searchParams: { token?: string };
+  searchParams: Promise<{ token?: string }>;
 }) {
   const token = (await searchParams).token;
 
