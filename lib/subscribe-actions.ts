@@ -2,12 +2,10 @@
 
 import { parseWithZod } from "@conform-to/zod";
 import { subscribeSchema } from "@/app/schema";
+import { sendSubscribeEmail } from "@/lib/send-subscribe-email";
 import { redirect } from "next/navigation";
 
-export async function subscribe(
-  prevState: unknown,
-  formData: FormData
-) {
+export async function subscribe(prevState: unknown, formData: FormData) {
   // Validate the form data
   const submission = parseWithZod(formData, {
     schema: subscribeSchema,
@@ -17,10 +15,19 @@ export async function subscribe(
     return submission.reply();
   }
 
-  let errorOccurred = false;
+  const email = submission.value.email;
+  let errorOccured = false;
 
   try {
+    await sendSubscribeEmail(email);
   } catch (error) {
+    errorOccured = true;
+    return submission.reply({
+      formErrors: ["Something went wrong."],
+    });
   } finally {
+    if (!errorOccured) {
+      redirect("");
+    }
   }
 }

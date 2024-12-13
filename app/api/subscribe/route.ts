@@ -6,6 +6,25 @@ export async function GET(request: NextRequest) {
   const email = searchParams.get("email")!;
 
   try {
+    // First, check if a user with this email already exists
+    const { data: existingUser, error: lookupError } = await supabase
+      .schema("next_auth")
+      .from("subscribers")
+      .select("*")
+      .eq("email", email)
+      .single();
+
+    // If there was an error checking for the user, handle it
+    if (lookupError) {
+      console.error("Error checking for existing user:", lookupError);
+      throw new Error("Failed to check existing user");
+    }
+
+    // If user exists, redirect to status page
+    if (existingUser) {
+      return NextResponse.redirect("/course/subscription/status");
+    }
+
     // Create user
     const { error: userError } = await supabase
       .schema("next_auth")
