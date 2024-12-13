@@ -42,7 +42,9 @@ export function SignInEmailPasswordForm({ from }: { from: string }) {
     <form id={form.id} onSubmit={form.onSubmit} action={formAction} noValidate>
       <div className="grid gap-4">
         {form.errors && (
-          <div className="text-sm text-red-600 text-center">{form.errors}</div>
+          <div className="text-sm text-red-600 text-center bg-red-50 border border-red-200 rounded p-2">
+            {form.errors}
+          </div>
         )}
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>

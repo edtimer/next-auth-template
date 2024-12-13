@@ -82,7 +82,7 @@ export async function signInWithEmailAndPassword(
       errorOccured = true;
 
       // Check if this is our verification pending case
-      if (error.cause.err.message === "Verification pending") {
+      if (error.cause.err.message === "Verification email sent") {
         redirect(`/signin/verify-email`);
       }
       // If it's not verification pending, return the error message

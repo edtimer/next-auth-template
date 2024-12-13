@@ -12,17 +12,21 @@ export function EmailVerificationTemplate({
   return (
     <Html>
       <Tailwind>
-        <Text className="text-base font-medium text-slate-900">Hey,</Text>
-        <Text className="text-base font-medium text-slate-900">
-          Click the link below to verify your account.
+        <Text className="text-base font-medium text-gray-900">Hey,</Text>
+        <Text className="text-base font-medium text-gray-900">
+          Click the link below to verify your account:
         </Text>
         <Button
           href={verificationUrl}
-          className="rounded bg-sky-600 px-4 py-2 text-base font-medium text-white"
+          className="rounded bg-blue-600 px-4 py-2 text-base font-medium text-white"
         >
-          Verify email
+          Verify Email
         </Button>
-        <Text className="text-sm font-medium text-zinc-500">
+        <Text className="text-base font-medium text-gray-900">
+          Note that the link will expire in 1 hour.
+        </Text>
+
+        <Text className="text-sm font-medium text-gray-500">
           If you did not try to log in to your account, you can safely ignore
           this email.
         </Text>
