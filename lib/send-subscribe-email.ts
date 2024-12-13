@@ -29,7 +29,7 @@ export async function sendSubscribeEmail(email: string) {
         },
         Subject: {
           Charset: "UTF-8",
-          Data: "Reset your password",
+          Data: "Next.js + Auth.js Course Subscription",
         },
       },
       Source: process.env.AWS_SES_FROM_EMAIL,

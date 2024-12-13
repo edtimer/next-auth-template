@@ -36,7 +36,9 @@ export function SubscriptionForm() {
         className="grid gap-4 mt-4"
       >
         {form.errors && (
-          <div className="text-center text-sm text-red-600">{form.errors}</div>
+          <div className="text-center text-sm text-red-600 bg-red-50 p-2 border rounded-md border-red-200">
+            {form.errors}
+          </div>
         )}
         <div className="grid gap-2">
           <Label htmlFor="email" className="text-gray-700">
@@ -58,7 +60,7 @@ export function SubscriptionForm() {
               {isPending ? (
                 <>
                   <Icons.loader className="size-3 animate-spin" />
-                  Subscribing...
+                  Subscribe
                 </>
               ) : (
                 "Subscribe"

@@ -5,6 +5,8 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const email = searchParams.get("email")!;
 
+  console.log("Subscriber email: ", email);
+
   try {
     // First, check if a user with this email already exists
     const { data: existingUser, error: lookupError } = await supabase
@@ -14,15 +16,11 @@ export async function GET(request: NextRequest) {
       .eq("email", email)
       .single();
 
-    // If there was an error checking for the user, handle it
-    if (lookupError) {
-      console.error("Error checking for existing user:", lookupError);
-      throw new Error("Failed to check existing user");
-    }
-
     // If user exists, redirect to status page
     if (existingUser) {
-      return NextResponse.redirect("/course/subscription/status");
+      return NextResponse.redirect(
+        new URL("/course/subscribe/status", request.nextUrl.origin)
+      );
     }
 
     // Create user
@@ -40,8 +38,12 @@ export async function GET(request: NextRequest) {
       throw new Error("Failed to create user");
     }
 
-    return NextResponse.redirect("/course/subscription/success");
+    return NextResponse.redirect(
+      new URL("/course/subscribe/success", request.nextUrl.origin)
+    );
   } catch (error) {
-    return NextResponse.redirect("/course/subscription/error");
+    return NextResponse.redirect(
+      new URL("/course/subscribe/error", request.nextUrl.origin)
+    );
   }
 }
