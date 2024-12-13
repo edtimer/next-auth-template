@@ -6,11 +6,11 @@ export default function EmailSentPage() {
     <div className="mx-auto max-w-md mt-12 px-4 lg:px-8 text-center">
       <h1 className="text-2xl font-bold mt-12 text-green-600">Check Inbox</h1>
       <p className="text-gray-700 leading-relaxed text-pretty mt-2">
-        I've sent a subscription email. Click the link in the email to
+        I&apos;ve sent a subscription email. Click the link in the email to
         subscribe.
       </p>
       <p className="text-pretty text-muted-foreground mt-4 text-sm">
-        Didn't receive the email? Check your spam or junk folder.
+        Didn&apos;t receive the email? Check your spam or junk folder.
       </p>
       <Link
         href="/"
