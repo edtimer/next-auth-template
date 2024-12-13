@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -19,18 +18,6 @@ export function NavItem({ href, title }: { href: string; title: string }) {
       href={href}
     >
       {title}
-      {isActive && (
-        <motion.div
-          className="-bottom-[20px] absolute inset-x-0 h-[2px] w-full bg-primary"
-          layoutId="underline"
-          transition={{
-            layout: {
-              duration: 0.2,
-              ease: "easeOut",
-            },
-          }}
-        />
-      )}
     </Link>
   );
 }
