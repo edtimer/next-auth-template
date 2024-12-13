@@ -1,5 +1,10 @@
+import { Suspense } from "react";
 import { ResetPasswordForm } from "@/components/reset-passsword-form";
 
 export default function ResetPasswordPage() {
-  return <ResetPasswordForm />;
+  return (
+    <Suspense>
+      <ResetPasswordForm />
+    </Suspense>
+  );
 }
