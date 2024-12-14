@@ -27,6 +27,6 @@ export function PasswordResetTemplate({ resetUrl }: { resetUrl: string }) {
           this email. This link will expire in 24 hours.
         </Text>
       </Tailwind>
-    </Html>
+    </Html> 
   );
 }

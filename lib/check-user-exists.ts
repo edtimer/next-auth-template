@@ -3,10 +3,9 @@ import { supabase } from "@/lib/supabase";
 import { CheckUserExistsError } from "@/lib/check-user-exists-error";
 
 export async function checkUserExists(email: string): Promise<void> {
-  console.log("User email inside check user exists function: ", email);
 
   try {
-    const { data: user, error: userError } = await supabase
+    const { error: userError } = await supabase
       .schema("next_auth")
       .from("users")
       .select("*")
