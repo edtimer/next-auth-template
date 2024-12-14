@@ -22,7 +22,7 @@ export default async function Home() {
       <p className="mt-6 text-gray-700">
         In the course, you&apos;ll learn how to implement:
       </p>
-      <ul className="mt-6 space-y-1 text-gray-700 ml-8 list-disc">
+      <ul className="mt-6 space-y-1 text-gray-700 ml-8 list-disc font-bold">
         <li>Sign in with Google</li>
         <li>Sign in with email</li>
         <li>Sign in with email and password</li>

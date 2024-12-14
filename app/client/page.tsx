@@ -18,7 +18,7 @@ export default function ClientPage() {
   if (status === "unauthenticated") {
     return (
       <div className="mt-12 text-center">
-        <p className="font-medium text-red-600">User Not Authenticated.</p>
+        <p className="font-medium text-red-600">User Not Authenticated</p>
         <p className="text-sm mt-4">User email: Not available</p>
         <p className="text-sm">User role: Not available</p>
         <p className="mt-4 text-gray-700 font-medium">
