@@ -59,7 +59,7 @@ export function SubscriptionForm() {
             >
               {isPending ? (
                 <>
-                  <Icons.loader className="size-3 animate-spin" />
+                  <Icons.loader className="size-2.5 animate-spin" />
                   Subscribe
                 </>
               ) : (

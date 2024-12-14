@@ -18,7 +18,10 @@ export default function ClientPage() {
   if (status === "unauthenticated") {
     return (
       <div className="mt-12 text-center">
-        <p className="text-sm">User email: Not available</p>
+        <p className="text-sm font-medium text-red-600">
+          User Not Authenticated.
+        </p>
+        <p className="text-sm mt-4">User email: Not available</p>
         <p className="text-sm">User role: Not available</p>
         <p className="mt-4 text-gray-700 font-medium">
           This is a Client Component.
@@ -29,8 +32,9 @@ export default function ClientPage() {
 
   return (
     <div className="mt-12 text-center">
-      <p className="text-sm">{session?.user.email}</p>
-      <p className="text-sm">{session?.user.role}</p>
+      <p className="text-sm font-medium text-green-600">User Authenticated</p>
+      <p className="text-sm mt-4">User email: {session?.user.email}</p>
+      <p className="text-sm">User role: {session?.user.role}</p>
       <p className="mt-4 text-gray-700 font-medium">
         This is a Client Component.
       </p>
