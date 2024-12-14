@@ -104,8 +104,6 @@ export async function signInWithEmailAndPassword(
 
 export async function signInWithGoogle(
   from: string,
-  prevState: unknown,
-  formData: FormData
 ) {
   try {
     await signIn("google", {

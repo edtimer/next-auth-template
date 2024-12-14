@@ -29,7 +29,7 @@ export function ResetPasswordForm() {
   });
 
   return (
-    <div className="py-16 mx-auto sm:max-w-sm">
+    <div className="mt-16 mx-auto sm:max-w-sm px-4">
       <h1 className="text-2xl font-bold text-center mb-6">Reset Password</h1>
       <form
         id={form.id}

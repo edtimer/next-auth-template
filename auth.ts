@@ -12,7 +12,7 @@ import { handleAuthSession } from "@/lib/handle-auth-session";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
-  debug: true,
+  debug: false,
   session: { strategy: "jwt" },
   events: { createUser: handleUserCreation },
   callbacks: {

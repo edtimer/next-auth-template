@@ -23,7 +23,7 @@ export function ForgotPasswordForm() {
   });
 
   return (
-    <div className="py-16 mx-auto sm:mx-auto sm:max-w-sm">
+    <div className="mt-16 mx-auto sm:mx-auto sm:max-w-sm px-4">
       <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
         Forgot password?
       </h2>
