@@ -24,7 +24,7 @@ export function SigninForm() {
   );
 
   return (
-    <div className="py-16 sm:mx-auto sm:max-w-sm">
+    <div className="mt-16 sm:mx-auto sm:max-w-sm px-4">
       <h2 className="text-center text-2xl font-bold tracking-tight text-primary">
         Sign in to your account
       </h2>
@@ -48,7 +48,7 @@ export function SigninForm() {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-small text-muted-foreground">
+          <div className="relative flex justify-center text-sm text-muted-foreground">
             <span className="bg-background px-2">Or continue with</span>
           </div>
         </div>

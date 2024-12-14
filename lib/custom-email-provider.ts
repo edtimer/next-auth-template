@@ -18,7 +18,7 @@ export function CustomEmailProvider(): EmailConfig {
     name: "Email Magic Link",
     from: process.env.AWS_SES_FROM_EMAIL,
     server: {},
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: 60 * 60,
 
     async sendVerificationRequest(params: SendVerificationRequestParams) {
       const { identifier: email, url } = params;

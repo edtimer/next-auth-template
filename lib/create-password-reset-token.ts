@@ -26,7 +26,7 @@ export async function createPasswordResetToken(
       .insert({
         identifier: email,
         token: resetPasswordToken,
-        expires: new Date(Date.now() + 60 * 1000).toISOString(),
+        expires: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
       });
 
     if (createTokenError) {

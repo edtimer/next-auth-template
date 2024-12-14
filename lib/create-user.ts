@@ -40,7 +40,7 @@ export async function createUser(
       .insert({
         token: verificationToken,
         identifier: email,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
+        expires: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour
       });
 
     if (tokenError) {

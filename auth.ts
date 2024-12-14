@@ -12,7 +12,7 @@ import { handleAuthSession } from "@/lib/handle-auth-session";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
-  debug: false,
+  debug: true,
   session: { strategy: "jwt" },
   events: { createUser: handleUserCreation },
   callbacks: {
@@ -31,4 +31,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     url: process.env.SUPABASE_URL!,
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY!,
   }),
+  pages: { error: "/auth-error" },
 });
