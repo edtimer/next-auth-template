@@ -88,16 +88,15 @@ export async function resetUserPassword(
       return submission.reply({
         formErrors: [VerifyPasswordResetTokenError.getErrorMessage(error.code)],
       });
-    }
-    if (error instanceof ResetPasswordError) {
+    } else if (error instanceof ResetPasswordError) {
       return submission.reply({
         formErrors: [ResetPasswordError.getErrorMessage(error.code)],
       });
+    } else {
+      return submission.reply({
+        formErrors: ["Something went wrong."],
+      });
     }
-
-    return submission.reply({
-      formErrors: ["Something went wrong."],
-    });
   } finally {
     if (!errorOccured) {
       redirect("/reset-password/success");
