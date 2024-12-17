@@ -102,18 +102,16 @@ export async function signInWithEmailAndPassword(
   }
 }
 
-export async function signInWithGoogle(
-  from: string,
-) {
+export async function signInWithGoogle(from: string) {
   try {
     await signIn("google", {
       redirectTo: from,
     });
   } catch (error) {
-    if (error instanceof AuthError) {
-      return "Something went wrong with Google sign in.";
-    }
-    throw error;
+    return {
+      error: true,
+      message: "Something went wrong.",
+    };
   }
 }
 
