@@ -84,6 +84,7 @@ export async function resetUserPassword(
     await resetPassword(email, submission.value.newPassword);
   } catch (error) {
     errorOccured = true;
+    
     if (error instanceof VerifyPasswordResetTokenError) {
       return submission.reply({
         formErrors: [VerifyPasswordResetTokenError.getErrorMessage(error.code)],
