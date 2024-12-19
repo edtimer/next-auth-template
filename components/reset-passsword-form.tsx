@@ -45,7 +45,9 @@ export function ResetPasswordForm() {
         )}
 
         <div className="grid gap-2">
-          <Label htmlFor="newPassword">New password</Label>
+          <Label htmlFor="newPassword" className="text-gray-700">
+            New password
+          </Label>
           <Input id="newPassword" type="password" name="newPassword" />
           {fields.newPassword.errors && (
             <div className="text-sm text-red-600 mt-1">
@@ -54,7 +56,7 @@ export function ResetPasswordForm() {
           )}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="newPassword">Confirm new password</Label>
+          <Label htmlFor="newPassword" className="text-gray-700">Confirm new password</Label>
           <Input
             id="confirmNewPassword"
             type="password"

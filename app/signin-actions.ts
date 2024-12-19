@@ -1,7 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
+import { signIn, signOut } from "@/auth";
 import { CallbackRouteError } from "@auth/core/errors";
 import { parseWithZod } from "@conform-to/zod";
 import {
@@ -107,15 +106,16 @@ export async function signInWithGoogle(from: string) {
     await signIn("google", {
       redirectTo: from,
     });
-  } catch (error) {
+  } catch (error: any) {
+    if (error.digest.includes("NEXT_REDIRECT")) {
+      throw error;
+    }
     return {
       error: true,
       message: "Something went wrong.",
     };
   }
 }
-
-import { signOut } from "@/auth";
 
 export async function handleSignOut() {
   await signOut({ redirectTo: "/" });
