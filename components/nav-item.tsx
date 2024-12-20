@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-export function NavItem({ href, title }: { href: string; title: string }) {
+type NavItemProps = {
+  href: string;
+  title: string;
+};
+
+export function NavItem({ href, title }: NavItemProps) {
   const pathname = usePathname();
   const isActive = href === pathname;
 

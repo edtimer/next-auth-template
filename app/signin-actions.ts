@@ -106,8 +106,8 @@ export async function signInWithGoogle(from: string) {
     await signIn("google", {
       redirectTo: from,
     });
-  } catch (error: any) {
-    if (error.digest.includes("NEXT_REDIRECT")) {
+  } catch (error) {
+    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
       throw error;
     }
     return {
