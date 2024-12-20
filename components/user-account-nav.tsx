@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SignOutButton } from "@/components/sign-out-button";
+import { SignOut } from "@/components/sign-out";
 
 export async function UserAccountNav() {
   const user = await getCurrentUser();
@@ -40,7 +40,7 @@ export async function UserAccountNav() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem className="cursor-pointer">
-          <SignOutButton />
+          <SignOut />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
