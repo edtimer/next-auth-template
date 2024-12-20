@@ -13,6 +13,7 @@ export function SignOut() {
       setIsLoading(true);
       await handleSignOut();
     } catch (error) {
+      // Implement React Hot Toast
       console.error("Unable to sign out:", error);
     } finally {
       setIsLoading(false);
