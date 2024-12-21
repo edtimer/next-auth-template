@@ -14,10 +14,6 @@ import { SignOut } from "@/components/sign-out";
 export async function UserAccountNav() {
   const user = await getCurrentUser();
 
-  function getAvatarFallback(email: string) {
-    return email?.slice(0, 2).toUpperCase();
-  }
-
   if (!user) {
     return (
       <Link
@@ -34,8 +30,10 @@ export async function UserAccountNav() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={user.image!} />
-          <AvatarFallback>{getAvatarFallback(user.email!)}</AvatarFallback>
+          <AvatarImage src={user.image || undefined} />
+          <AvatarFallback>
+            {user.email!.slice(0, 2).toUpperCase()}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
