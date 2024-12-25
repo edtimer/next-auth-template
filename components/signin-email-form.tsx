@@ -10,12 +10,9 @@ import { Label } from "@/components/ui/label";
 import { signInWithEmail } from "@/app/signin-actions";
 import { signInWithEmailSchema } from "@/app/schema";
 
-export function SignInEmailForm({ from }: { from: string }) {
-  // Bind the redirect URL to the action
-  const boundSignInWithEmail = signInWithEmail.bind(null, from);
-
+export function SignInEmailForm() {
   const [lastResult, formAction, isPending] = useActionState(
-    boundSignInWithEmail,
+    signInWithEmail,
     undefined
   );
 

@@ -3,7 +3,7 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
-import { CustomEmailProvider } from "@/lib/custom-email-provider";
+import { customEmailProvider } from "@/lib/custom-email-provider";
 import { authorizeCredentials } from "@/lib/authorize-credentials";
 import { handleAuthRedirect } from "@/lib/handle-auth-redirect";
 import { handleUserCreation } from "@/lib/handle-user-creation";
@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
-    CustomEmailProvider(),
+    customEmailProvider(),
     Credentials({
       authorize: authorizeCredentials,
     }),

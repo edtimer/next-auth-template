@@ -5,35 +5,35 @@ export async function handleAuthRedirect({
   url: string;
   baseUrl: string;
 }) {
-  // If we see a URL that contains '/signin?from=', we want to extract
-  // the actual destination from the 'from' parameter
-  if (url.includes("/signin?from=")) {
-    // Parse the URL to get the 'from' parameter
-    const signinUrl = new URL(url);
-    const destination = signinUrl.searchParams.get("from");
+  try {
+    // Only attempt URL parsing if the path contains /signin
+    if (url.includes("/signin")) {
+      // Create a URL object from the incoming url
+      const redirectUrl = new URL(
+        url.startsWith("/") ? `${baseUrl}${url}` : url
+      );
+      const pathname = redirectUrl.pathname;
+      const destination = redirectUrl.searchParams.get("from");
 
-    if (destination) {
-      // Decode the destination
-      const decodedDestination = decodeURIComponent(destination);
+      // Handle signin page scenarios
+      if (pathname === "/signin") {
+        // If no destination is specified, redirect to homepage
+        if (!destination) {
+          return baseUrl;
+        }
 
-      // If it's a relative URL, make it absolute
-      if (decodedDestination.startsWith("/")) {
-        const finalUrl = `${baseUrl}${decodedDestination}`;
-        return finalUrl;
+        // If destination is specified, redirect there
+        if (destination) {
+          return `${baseUrl}${destination}`;
+        }
       }
     }
-  }
 
-  // For all other cases, use the default logic
-  if (url.startsWith("/")) {
-    return `${baseUrl}${url}`;
+    // Default case: return the original URL with proper base handling
+    const finalUrl = url.startsWith("/") ? `${baseUrl}${url}` : url;
+    return finalUrl;
+  } catch (error) {
+    console.error("Error in handleAuthRedirect:", error);
+    return baseUrl;
   }
-
-  // If the URL is already absolute and matches our domain, use it
-  if (url.startsWith(baseUrl)) {
-    return url;
-  }
-
-  // Default to the base URL
-  return baseUrl;
 }

@@ -1,12 +1,9 @@
 import { auth } from "@/auth";
-import { getUserRole } from "@/lib/get-user-role";
 
 export default async function AdminPage() {
   const session = await auth();
 
-  const { role } = await getUserRole(session!.user);
-
-  if (role === "user") {
+  if (session?.user?.role === "user") {
     return (
       <div className="mx-auto max-w-lg mt-12 text-center">
         <p className="font-medium text-red-600">Admin Access Only</p>

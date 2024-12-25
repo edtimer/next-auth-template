@@ -18,17 +18,7 @@ export async function handleUserCreation({ user }: { user: User }) {
       console.error("Error updating user role:", error);
       throw error;
     }
-
-    // Log the successful role assignment
-    console.log(`Successfully assigned role "${role}" to user ${user.email}`, {
-      email: user.email,
-      role: role,
-    });
   } catch (error) {
-    // Detailed error logging
-    console.error("Failed to assign role to new user:", {
-      attemptedRole: role,
-      error: error instanceof Error ? error.message : "Unknown error",
-    });
+    console.log("Failed to assign role to new user:", error);
   }
 }

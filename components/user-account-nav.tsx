@@ -1,5 +1,5 @@
 import React from "react";
-import { getCurrentUser } from "@/lib/dal";
+import { auth } from "@/auth";
 import { buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
@@ -12,9 +12,9 @@ import {
 import { SignOut } from "@/components/sign-out";
 
 export async function UserAccountNav() {
-  const user = await getCurrentUser();
+  const session = await auth();
 
-  if (!user) {
+  if (!session?.user) {
     return (
       <Link
         href="/signin"
@@ -30,9 +30,9 @@ export async function UserAccountNav() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={user.image || undefined} />
+          <AvatarImage src={session?.user.image || undefined} />
           <AvatarFallback>
-            {user.email!.slice(0, 2).toUpperCase()}
+            {session?.user.email!.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

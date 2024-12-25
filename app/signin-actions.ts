@@ -9,11 +9,7 @@ import {
 } from "@/app/schema";
 import { redirect } from "next/navigation";
 
-export async function signInWithEmail(
-  from: string,
-  prevState: unknown,
-  formData: FormData
-) {
+export async function signInWithEmail(prevState: unknown, formData: FormData) {
   // Validate the form data
   const submission = parseWithZod(formData, {
     schema: signInWithEmailSchema,
@@ -26,16 +22,10 @@ export async function signInWithEmail(
   let errorOccurred = false;
 
   try {
-    await signIn(
-      "magic-link",
-      {
-        email: formData.get("email"),
-        redirect: false,
-      },
-      {
-        callbackUrl: from,
-      }
-    );
+    await signIn("ses", {
+      email: formData.get("email"),
+      redirect: false,
+    });
   } catch (error) {
     errorOccurred = true;
     return submission.reply({

@@ -31,7 +31,7 @@ export function SigninForm() {
             <TabsTrigger value="password">Password</TabsTrigger>
           </TabsList>
           <TabsContent value="email-link">
-            <SignInEmailForm from={from} />
+            <SignInEmailForm />
           </TabsContent>
           <TabsContent value="password">
             <SignInEmailPasswordForm from={from} />

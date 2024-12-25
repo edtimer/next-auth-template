@@ -20,9 +20,11 @@ export default async function AuthErrorPage({
   const errorMessage = getErrorMessage(params.error);
 
   return (
-    <div className="mx-auto max-w-lg mt-12 text-center px-4
-    ">
-      <h1 className="text-2xl font-bold text-red-600">Authentication Error</h1>
+    <div
+      className="mx-auto max-w-lg mt-12 text-center px-4
+    "
+    >
+      <h1 className="text-xl font-bold text-red-600">Authentication Error</h1>
       <p className="text-gray-700 mt-4 text-pretty">{errorMessage}</p>
       <Link
         href="/signin"
