@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { User } from "next-auth";
 
-export async function handleUserCreation({ user }: { user: User }) {
+export async function assignUserRole({ user }: { user: User }) {
   const ADMIN_EMAILS = ["rawgrittt@gmail.com"];
 
   // Determine if this email should have admin privileges

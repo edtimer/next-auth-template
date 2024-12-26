@@ -6,7 +6,7 @@ import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { customEmailProvider } from "@/lib/custom-email-provider";
 import { authorizeCredentials } from "@/lib/authorize-credentials";
 import { handleAuthRedirect } from "@/lib/handle-auth-redirect";
-import { handleUserCreation } from "@/lib/handle-user-creation";
+import { assignUserRole } from "@/lib/assign-user-role";
 import { handleAuthJwt } from "@/lib/handle-auth-jwt";
 import { handleAuthSession } from "@/lib/handle-auth-session";
 
@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   debug: false,
   session: { strategy: "jwt" },
-  events: { createUser: handleUserCreation },
+  events: { createUser: assignUserRole },
   callbacks: {
     redirect: handleAuthRedirect,
     jwt: handleAuthJwt,
