@@ -6,7 +6,7 @@ export default function VerifyEmailPage() {
     <div className="text-center max-w-md mx-auto px-4 lg:px-8">
       <h1 className="text-2xl font-bold mt-12 mb-6">Verify Your Email</h1>
       <p className="text-gray-700 leading-relaxed">
-        We7apos;ve sent a verification link to your email.
+        We&apos;ve sent a verification link to your email.
       </p>
       <p className="text-pretty text-muted-foreground my-4 text-sm">
         Didn&apos;t receive the email? Check your spam or junk folder.

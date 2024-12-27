@@ -18,12 +18,12 @@ const defaultErrorContent: ErrorContent = {
 
 const statusContent: Record<TokenVerificationStatus, ErrorContent> = {
   "token-invalid": {
-    title: "Token is Invalid",
-    message: "Please issue a new one.",
+    title: "Invalid Token",
+    message: "Please request a new one.",
   },
   "token-expired": {
-    title: "Token is Expired",
-    message: "Please issue a new one.",
+    title: "Invalid Token",
+    message: "Please request a new one.",
   },
   "internal-error": {
     title: "Something Went Wrong",
@@ -45,22 +45,37 @@ function ErrorMessage({ error }: { error: string }) {
       <h2 className="text-red-600 text-2xl font-bold">{content.title}</h2>
       <p className="text-gray-700 my-4">{content.message}</p>
       <Link
-        href="/forgot-password"
+        href="/signin"
         className="flex justify-center items-center group p-2"
       >
         <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-primary" />
-        Forgot Password
+        Sign In
       </Link>
     </div>
   );
 }
 
-export default async function VerifyResetPasswordPage({
+export default async function CredentialsEmailVerificationStatusPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const errorType = (await searchParams).error || "internal-error";
+  const errorType = (await searchParams).error;
 
-  return <ErrorMessage error={errorType} />;
+  if (errorType) {
+    return <ErrorMessage error={errorType} />;
+  }
+
+  return (
+    <div className="mx-auto max-w-sm mt-12 px-4 lg:px-8 text-center">
+      <h2 className="text-red-600 text-2xl font-bold">Email Verified</h2>
+      <Link
+        href="/signin"
+        className="flex justify-center items-center group p-2"
+      >
+        <Icons.arrowLeft className="size-4 inline-block mr-2 text-muted-foreground transform transition-transform group-hover:-translate-x-1 group-hover:text-primary" />
+        Sign In
+      </Link>
+    </div>
+  );
 }

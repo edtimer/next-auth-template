@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
-import { randomBytes } from "node:crypto";
-import { getUser } from "@/lib/get-user";
+import { checkUserExists } from "@/lib/check-user-exists";
 import { createUser } from "@/lib/create-user";
 import { sendCredentialEmailVerificationEmail } from "@/lib/send-credentials-email-verification-email";
 import { checkCredentialsEmailVerificationStatus } from "@/lib/check-credentials-email-verification-status";
@@ -14,9 +13,9 @@ export async function authorizeCredentials(
   const password = credentials.password as string;
 
   // Try to find an existing user
-  const user = await getUser(email);
+  const user = await checkUserExists(email);
 
-  const verificationToken = randomBytes(32).toString("hex");
+  const verificationToken = crypto.randomUUID();
 
   // Handle new user signup flow
   if (!user) {
